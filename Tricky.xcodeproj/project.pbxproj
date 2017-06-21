@@ -7,21 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C6ADB52626DEE9EF87CCAB9 /* Pods_Tricky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1233DE8BA99300355CA0672 /* Pods_Tricky.framework */; };
+		8536AF3F1EFA933A00887447 /* TKChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8536AF3E1EFA933A00887447 /* TKChapter.swift */; };
+		855908C51EF7C533003C020B /* TKBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855908C41EF7C533003C020B /* TKBookView.swift */; };
+		855908C71EF7C9FD003C020B /* TKBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855908C61EF7C9FD003C020B /* TKBookViewController.swift */; };
+		855908D51EF8297A003C020B /* UINavigationBar+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855908D41EF8297A003C020B /* UINavigationBar+Animation.swift */; };
+		85621D1D1EF831B300EEC8DD /* TKBookConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85621D1C1EF831B300EEC8DD /* TKBookConfig.swift */; };
+		8585835C1EEC6DC60024C9AA /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8585835B1EEC6DC60024C9AA /* Common.swift */; };
+		858583621EEC750F0024C9AA /* TKHomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858583601EEC750F0024C9AA /* TKHomepageViewController.swift */; };
+		858583631EEC750F0024C9AA /* TKHomepageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 858583611EEC750F0024C9AA /* TKHomepageViewController.xib */; };
 		8597A62F1EEC50AF00A5A836 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597A62E1EEC50AF00A5A836 /* AppDelegate.swift */; };
 		8597A6311EEC50AF00A5A836 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597A6301EEC50AF00A5A836 /* ViewController.swift */; };
-		8597A6341EEC50AF00A5A836 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8597A6321EEC50AF00A5A836 /* Main.storyboard */; };
 		8597A6361EEC50AF00A5A836 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8597A6351EEC50AF00A5A836 /* Assets.xcassets */; };
 		8597A6391EEC50AF00A5A836 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8597A6371EEC50AF00A5A836 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		267021A370A5B8EE4FBEDB3D /* Pods-Tricky.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tricky.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tricky/Pods-Tricky.debug.xcconfig"; sourceTree = "<group>"; };
+		8536AF3E1EFA933A00887447 /* TKChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKChapter.swift; sourceTree = "<group>"; };
+		855908C41EF7C533003C020B /* TKBookView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKBookView.swift; sourceTree = "<group>"; };
+		855908C61EF7C9FD003C020B /* TKBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKBookViewController.swift; sourceTree = "<group>"; };
+		855908D41EF8297A003C020B /* UINavigationBar+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Animation.swift"; sourceTree = "<group>"; };
+		85621D1C1EF831B300EEC8DD /* TKBookConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKBookConfig.swift; sourceTree = "<group>"; };
+		858583531EEC625F0024C9AA /* Tricky-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tricky-Bridging-Header.h"; sourceTree = "<group>"; };
+		8585835B1EEC6DC60024C9AA /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		858583601EEC750F0024C9AA /* TKHomepageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKHomepageViewController.swift; sourceTree = "<group>"; };
+		858583611EEC750F0024C9AA /* TKHomepageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKHomepageViewController.xib; sourceTree = "<group>"; };
 		8597A62B1EEC50AF00A5A836 /* Tricky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tricky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8597A62E1EEC50AF00A5A836 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8597A6301EEC50AF00A5A836 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		8597A6331EEC50AF00A5A836 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8597A6351EEC50AF00A5A836 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8597A6381EEC50AF00A5A836 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8597A63A1EEC50AF00A5A836 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		933169DC7937179D2B9D31A7 /* Pods-Tricky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tricky.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tricky/Pods-Tricky.release.xcconfig"; sourceTree = "<group>"; };
+		D1233DE8BA99300355CA0672 /* Pods_Tricky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tricky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +48,96 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C6ADB52626DEE9EF87CCAB9 /* Pods_Tricky.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C6C7703F672E5804C1D0F13 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D1233DE8BA99300355CA0672 /* Pods_Tricky.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4D298DC3F0893FDD211FA8C7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				267021A370A5B8EE4FBEDB3D /* Pods-Tricky.debug.xcconfig */,
+				933169DC7937179D2B9D31A7 /* Pods-Tricky.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		855436EF1EF183CE00D7A4B0 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Libs;
+			sourceTree = "<group>";
+		};
+		855908BB1EF7C4B2003C020B /* Book */ = {
+			isa = PBXGroup;
+			children = (
+				855908C41EF7C533003C020B /* TKBookView.swift */,
+				855908C61EF7C9FD003C020B /* TKBookViewController.swift */,
+				8536AF3E1EFA933A00887447 /* TKChapter.swift */,
+			);
+			path = Book;
+			sourceTree = "<group>";
+		};
+		858583571EEC6A0D0024C9AA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				85621D1C1EF831B300EEC8DD /* TKBookConfig.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		858583581EEC6A760024C9AA /* UIKit_Base */ = {
+			isa = PBXGroup;
+			children = (
+				8585835B1EEC6DC60024C9AA /* Common.swift */,
+			);
+			path = UIKit_Base;
+			sourceTree = "<group>";
+		};
+		8585835D1EEC73D00024C9AA /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				855908D41EF8297A003C020B /* UINavigationBar+Animation.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		8585835E1EEC746F0024C9AA /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				855908BB1EF7C4B2003C020B /* Book */,
+				8585835F1EEC74830024C9AA /* Homepage */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8585835F1EEC74830024C9AA /* Homepage */ = {
+			isa = PBXGroup;
+			children = (
+				858583601EEC750F0024C9AA /* TKHomepageViewController.swift */,
+				858583611EEC750F0024C9AA /* TKHomepageViewController.xib */,
+			);
+			path = Homepage;
+			sourceTree = "<group>";
+		};
 		8597A6221EEC50AF00A5A836 = {
 			isa = PBXGroup;
 			children = (
 				8597A62D1EEC50AF00A5A836 /* Tricky */,
 				8597A62C1EEC50AF00A5A836 /* Products */,
+				4D298DC3F0893FDD211FA8C7 /* Pods */,
+				4C6C7703F672E5804C1D0F13 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,12 +152,17 @@
 		8597A62D1EEC50AF00A5A836 /* Tricky */ = {
 			isa = PBXGroup;
 			children = (
+				855436EF1EF183CE00D7A4B0 /* Libs */,
+				8585835E1EEC746F0024C9AA /* ViewControllers */,
+				8585835D1EEC73D00024C9AA /* Util */,
+				858583581EEC6A760024C9AA /* UIKit_Base */,
+				858583571EEC6A0D0024C9AA /* Services */,
 				8597A62E1EEC50AF00A5A836 /* AppDelegate.swift */,
 				8597A6301EEC50AF00A5A836 /* ViewController.swift */,
-				8597A6321EEC50AF00A5A836 /* Main.storyboard */,
 				8597A6351EEC50AF00A5A836 /* Assets.xcassets */,
 				8597A6371EEC50AF00A5A836 /* LaunchScreen.storyboard */,
 				8597A63A1EEC50AF00A5A836 /* Info.plist */,
+				858583531EEC625F0024C9AA /* Tricky-Bridging-Header.h */,
 			);
 			path = Tricky;
 			sourceTree = "<group>";
@@ -71,9 +174,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8597A63D1EEC50AF00A5A836 /* Build configuration list for PBXNativeTarget "Tricky" */;
 			buildPhases = (
+				CEB5C6D67DADE9C07DB9843B /* [CP] Check Pods Manifest.lock */,
 				8597A6271EEC50AF00A5A836 /* Sources */,
 				8597A6281EEC50AF00A5A836 /* Frameworks */,
 				8597A6291EEC50AF00A5A836 /* Resources */,
+				866E3583A720E33B6499C02D /* [CP] Embed Pods Frameworks */,
+				FF0832C46ED89E185BD4F257 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -96,6 +202,8 @@
 				TargetAttributes = {
 					8597A62A1EEC50AF00A5A836 = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = DUK7Y8NUU7;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -124,19 +232,74 @@
 			buildActionMask = 2147483647;
 			files = (
 				8597A6391EEC50AF00A5A836 /* LaunchScreen.storyboard in Resources */,
+				858583631EEC750F0024C9AA /* TKHomepageViewController.xib in Resources */,
 				8597A6361EEC50AF00A5A836 /* Assets.xcassets in Resources */,
-				8597A6341EEC50AF00A5A836 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		866E3583A720E33B6499C02D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tricky/Pods-Tricky-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CEB5C6D67DADE9C07DB9843B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FF0832C46ED89E185BD4F257 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tricky/Pods-Tricky-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8597A6271EEC50AF00A5A836 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				855908C71EF7C9FD003C020B /* TKBookViewController.swift in Sources */,
 				8597A6311EEC50AF00A5A836 /* ViewController.swift in Sources */,
+				8536AF3F1EFA933A00887447 /* TKChapter.swift in Sources */,
+				855908D51EF8297A003C020B /* UINavigationBar+Animation.swift in Sources */,
+				8585835C1EEC6DC60024C9AA /* Common.swift in Sources */,
+				85621D1D1EF831B300EEC8DD /* TKBookConfig.swift in Sources */,
+				858583621EEC750F0024C9AA /* TKHomepageViewController.swift in Sources */,
+				855908C51EF7C533003C020B /* TKBookView.swift in Sources */,
 				8597A62F1EEC50AF00A5A836 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,14 +307,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		8597A6321EEC50AF00A5A836 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8597A6331EEC50AF00A5A836 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		8597A6371EEC50AF00A5A836 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -258,24 +413,35 @@
 		};
 		8597A63E1EEC50AF00A5A836 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 267021A370A5B8EE4FBEDB3D /* Pods-Tricky.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = DUK7Y8NUU7;
 				INFOPLIST_FILE = Tricky/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.unkown.Tricky;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Mainstayz.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Tricky/Tricky-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		8597A63F1EEC50AF00A5A836 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 933169DC7937179D2B9D31A7 /* Pods-Tricky.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = DUK7Y8NUU7;
 				INFOPLIST_FILE = Tricky/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.unkown.Tricky;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Mainstayz.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Tricky/Tricky-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -299,6 +465,7 @@
 				8597A63F1EEC50AF00A5A836 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
