@@ -10,7 +10,7 @@ import UIKit
 import FontAwesomeKit
 
 
-class TKBookViewController: TKViewController,TKBookViewDelegate {
+class TKBookViewController: TKViewController {
 
     
     var bookView : TKBookView?

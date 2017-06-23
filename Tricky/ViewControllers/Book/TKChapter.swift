@@ -7,14 +7,9 @@
 //
 
 import Foundation
-import UIKit
 
-class TKCharacter{
 
-    var content : NSTextStorage?
-    var layoutManager : NSLayoutManager?
-    var location : Int?
-    var currentPage: Int?
+class TKChapter{
     
     init() {
     }
