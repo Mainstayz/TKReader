@@ -8,9 +8,8 @@
 
 import Foundation
 import Alamofire
-
-
-struct TKNovelDetail {
+class TKNovelDetail : NSObject{
+    
     var title : String?
     var img : String?
     var desc : String?
@@ -26,14 +25,17 @@ struct TKNovelDetail {
     var info : [String]?
     var record: (Int,Int)?
     
+    override init() {
+    }
 
 }
-struct TKNovelChapter{
+class TKNovelChapter : NSObject{
     
     var chapterName : String?
     var chapterUrl : String?
     var content : String?
-}
+    override init() {
+    }}
 
 
 
@@ -50,7 +52,7 @@ protocol TKNovelParseProtocol {
 class TKNovelService{
     
     
-    static func searchNovel(source: String, keyword:String, page:Int, completion: @escaping(_ list:[Any])->()) -> Void {
+    static func searchNovel(source: String, keyword:String, page:Int, completion: @escaping([TKNovelDetail]?)->()) -> Void {
         Alamofire.request("http://zhannei.baidu.com/cse/search", method: .get, parameters: ["q":keyword,"p":page,"s":source], encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
             
             if let data = responseData.data{
@@ -86,7 +88,7 @@ class TKNovelService{
     
     
     
-    static func parseSearchData(html: Data, completion:(_ lists:[Dictionary<String, Any>]) -> ()){
+    static func parseSearchData(html: Data, completion:([TKNovelDetail]?) -> ()){
         
         let string = String(data: html, encoding: .utf8)
         
@@ -96,14 +98,16 @@ class TKNovelService{
         
         
         
-        var list = [Dictionary<String, Any>]()
-        
+        var list = [TKNovelDetail]()
         
         let document = OCGumboDocument(htmlString: string)
-        
-        
-        
+
         let result = document?.query("#results")?.find(".result-list")?.first()
+        
+        guard result != nil else {
+            completion(nil)
+            return
+        }
         
         let elements : [OCGumboElement] = result?.childNodes.filter({ (item) -> Bool in
             return item is OCGumboElement
@@ -111,35 +115,33 @@ class TKNovelService{
         
         for item in elements{
             
-            var dic = Dictionary<String,Any>()
-            
             let imgUrl =  item.query("img.result-game-item-pic-link-img")?.first()?.attr("src")
             let detailUrl =  item.query("a.result-game-item-title-link")?.first()?.attr("href")
             let title =  item.query("a.result-game-item-title-link")?.first()?.attr("title")
             let desc = item.query("p.result-game-item-desc")?.first()?.text()?.pregReplace(pattern: "\\s", with: "")
             let info = item.query("div.result-game-item-info")?.first()
             
-            var tmp = [String]()
-            
-            
-            
+            let model = TKNovelDetail()
+  
+            model.img = imgUrl
+            model.title = title
+            model.url = detailUrl
+            model.desc = desc
+ 
             for infoNode in (info?.childNodes.filter({ (item) -> Bool in
                 return item is OCGumboElement
             })) as! [OCGumboElement]! {
                 let content = infoNode.text()?.pregReplace(pattern: "\\s", with: "")
-//                let array =  content?.components(separatedBy: "：")
-                tmp.append(content!)
+                
+                if let content = content {
+                    if content.contains("作者") {
+                        model.author = content.components(separatedBy: "：").last
+                    }
+                }
+                
             }
             
-            
-            
-            dic["img"] = imgUrl
-            dic["name"] = title
-            dic["desc"] = desc
-            dic["url"] = detailUrl
-            dic["info"] = tmp
-            
-            list.append(dic)
+            list.append(model)
             
         }
         completion(list)

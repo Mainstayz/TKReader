@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="TKBookCollectionViewCell" customModule="Tricky" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="169" height="265"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="169" height="265"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6s5-5Z-kDr">
+                        <rect key="frame" x="0.0" y="0.0" width="169" height="225"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="6s5-5Z-kDr" secondAttribute="height" multiplier="9:12" id="2sE-59-wQr"/>
+                        </constraints>
+                    </imageView>
+                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ER9-Z3-wng">
+                        <rect key="frame" x="0.0" y="233" width="169" height="2"/>
+                    </progressView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="聊天Chat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ym-yZ-N1a">
+                        <rect key="frame" x="0.0" y="243" width="169" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.15868747234344482" green="0.21822044253349304" blue="0.30320093035697937" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="ER9-Z3-wng" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="6Bd-Wz-bwK"/>
+                <constraint firstItem="8Ym-yZ-N1a" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="9rt-of-RX6"/>
+                <constraint firstItem="6s5-5Z-kDr" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Dbs-7V-lx0"/>
+                <constraint firstAttribute="trailing" secondItem="6s5-5Z-kDr" secondAttribute="trailing" id="J1y-93-kSA"/>
+                <constraint firstItem="8Ym-yZ-N1a" firstAttribute="top" secondItem="ER9-Z3-wng" secondAttribute="bottom" constant="8" id="OAd-zO-vel"/>
+                <constraint firstItem="ER9-Z3-wng" firstAttribute="top" secondItem="6s5-5Z-kDr" secondAttribute="bottom" constant="8" id="OPT-Ty-CYg"/>
+                <constraint firstItem="6s5-5Z-kDr" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Qa8-0f-ABG"/>
+                <constraint firstAttribute="trailing" secondItem="8Ym-yZ-N1a" secondAttribute="trailing" id="pOy-qy-fi3"/>
+                <constraint firstAttribute="trailing" secondItem="ER9-Z3-wng" secondAttribute="trailing" id="rdz-wY-M2y"/>
+            </constraints>
+            <size key="customSize" width="169" height="265"/>
+            <point key="canvasLocation" x="-115.5" y="-35.5"/>
+        </collectionViewCell>
+    </objects>
+</document>

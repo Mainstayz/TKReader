@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FontAwesomeKit
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
+        self.themeAppearanceConfigure()
+        
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let homepage = TKHomepageViewController(nibName: "TKHomepageViewController", bundle: nil);
@@ -27,24 +31,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         
-        //test
-        
-//        TKNovelService.searchNovel(source: TKSearchSource.Biquge, keyword: "修真聊天群", page)
-//        TKNovelService.searchNovel(source: TKBiqugeSource().source, keyword: "修真聊天群", page: 0, completion: {(list) in
-//            print(list)
-//        })
-        
-        
-//        TKNovelService.novelDetail(url: "http://www.xs.la/36_36007/", source: TKBiqugeSource()) { (data) in
-//            
-//        }
-
-        TKNovelService.chapterDetail(url: "http://www.xs.la/36_36007/1902571.html", source: TKBiqugeSource()) { (content) in
-            print(content)
-        }
-        
         return true
     }
+    
+    
+    func themeAppearanceConfigure() -> Void {
+        UINavigationBar.appearance().barTintColor = themeBackgroundColor
+        UINavigationBar.appearance().tintColor = themeTextColor
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().titleTextAttributes = themeTitleAttributes
+        UIBarButtonItem.appearance().setTitleTextAttributes(themeItemTitleAttributes, for: .normal)
+        
+        let arrowLeftIcon = FAKFontAwesome.angleLeftIcon(withSize: 30)
+        arrowLeftIcon?.addAttribute(NSForegroundColorAttributeName, value: themeTextColor)
+        
+        let arrowLeftImage = arrowLeftIcon?.image(with: CGSize(width: 22, height: 30)).withRenderingMode(UIImageRenderingMode.alwaysOriginal).resizableImage(withCapInsets: UIEdgeInsetsMake(15, 20, 15, 2))
+
+        UIBarButtonItem.appearance().setBackButtonBackgroundImage(arrowLeftImage, for: .normal, barMetrics: .default)
+    }
+    
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -68,6 +74,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+        return true
+    }
+    
+    func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+        return true
     }
 
 

@@ -8,9 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		6C6ADB52626DEE9EF87CCAB9 /* Pods_Tricky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1233DE8BA99300355CA0672 /* Pods_Tricky.framework */; };
-		8536AF3F1EFA933A00887447 /* TKChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8536AF3E1EFA933A00887447 /* TKChapter.swift */; };
 		855908C71EF7C9FD003C020B /* TKBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855908C61EF7C9FD003C020B /* TKBookViewController.swift */; };
 		85621D1D1EF831B300EEC8DD /* TKBookConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85621D1C1EF831B300EEC8DD /* TKBookConfig.swift */; };
+		857062A21EFEA54300F0FC47 /* TKSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857062A01EFEA54300F0FC47 /* TKSearchViewController.swift */; };
+		857062A31EFEA54300F0FC47 /* TKSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 857062A11EFEA54300F0FC47 /* TKSearchViewController.xib */; };
+		857062A61EFEA77700F0FC47 /* TKSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857062A41EFEA77700F0FC47 /* TKSearchResultViewController.swift */; };
+		857062AA1EFEC9DB00F0FC47 /* TKSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857062A81EFEC9DB00F0FC47 /* TKSearchResultCell.swift */; };
+		857062AB1EFEC9DB00F0FC47 /* TKSearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 857062A91EFEC9DB00F0FC47 /* TKSearchResultCell.xib */; };
+		857E25D31EFE6A81000EEDCC /* Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857E25D21EFE6A81000EEDCC /* Configure.swift */; };
+		857E25D61EFE70ED000EEDCC /* TKBookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857E25D41EFE70ED000EEDCC /* TKBookCollectionViewCell.swift */; };
+		857E25D71EFE70ED000EEDCC /* TKBookCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 857E25D51EFE70ED000EEDCC /* TKBookCollectionViewCell.xib */; };
 		8585835C1EEC6DC60024C9AA /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8585835B1EEC6DC60024C9AA /* Common.swift */; };
 		858583621EEC750F0024C9AA /* TKHomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858583601EEC750F0024C9AA /* TKHomepageViewController.swift */; };
 		858583631EEC750F0024C9AA /* TKHomepageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 858583611EEC750F0024C9AA /* TKHomepageViewController.xib */; };
@@ -40,9 +47,16 @@
 
 /* Begin PBXFileReference section */
 		267021A370A5B8EE4FBEDB3D /* Pods-Tricky.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tricky.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tricky/Pods-Tricky.debug.xcconfig"; sourceTree = "<group>"; };
-		8536AF3E1EFA933A00887447 /* TKChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKChapter.swift; sourceTree = "<group>"; };
 		855908C61EF7C9FD003C020B /* TKBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKBookViewController.swift; sourceTree = "<group>"; };
 		85621D1C1EF831B300EEC8DD /* TKBookConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKBookConfig.swift; sourceTree = "<group>"; };
+		857062A01EFEA54300F0FC47 /* TKSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKSearchViewController.swift; sourceTree = "<group>"; };
+		857062A11EFEA54300F0FC47 /* TKSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKSearchViewController.xib; sourceTree = "<group>"; };
+		857062A41EFEA77700F0FC47 /* TKSearchResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKSearchResultViewController.swift; sourceTree = "<group>"; };
+		857062A81EFEC9DB00F0FC47 /* TKSearchResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKSearchResultCell.swift; sourceTree = "<group>"; };
+		857062A91EFEC9DB00F0FC47 /* TKSearchResultCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKSearchResultCell.xib; sourceTree = "<group>"; };
+		857E25D21EFE6A81000EEDCC /* Configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configure.swift; sourceTree = "<group>"; };
+		857E25D41EFE70ED000EEDCC /* TKBookCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKBookCollectionViewCell.swift; sourceTree = "<group>"; };
+		857E25D51EFE70ED000EEDCC /* TKBookCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKBookCollectionViewCell.xib; sourceTree = "<group>"; };
 		858583531EEC625F0024C9AA /* Tricky-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tricky-Bridging-Header.h"; sourceTree = "<group>"; };
 		8585835B1EEC6DC60024C9AA /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		858583601EEC750F0024C9AA /* TKHomepageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKHomepageViewController.swift; sourceTree = "<group>"; };
@@ -136,9 +150,20 @@
 			isa = PBXGroup;
 			children = (
 				855908C61EF7C9FD003C020B /* TKBookViewController.swift */,
-				8536AF3E1EFA933A00887447 /* TKChapter.swift */,
 			);
 			path = Book;
+			sourceTree = "<group>";
+		};
+		8570629F1EFEA50100F0FC47 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				857062A01EFEA54300F0FC47 /* TKSearchViewController.swift */,
+				857062A11EFEA54300F0FC47 /* TKSearchViewController.xib */,
+				857062A41EFEA77700F0FC47 /* TKSearchResultViewController.swift */,
+				857062A81EFEC9DB00F0FC47 /* TKSearchResultCell.swift */,
+				857062A91EFEC9DB00F0FC47 /* TKSearchResultCell.xib */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		858583571EEC6A0D0024C9AA /* Services */ = {
@@ -163,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				85BBF77E1EFDA03D00638A8D /* Extensions.swift */,
+				857E25D21EFE6A81000EEDCC /* Configure.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -170,6 +196,7 @@
 		8585835E1EEC746F0024C9AA /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				8570629F1EFEA50100F0FC47 /* Search */,
 				855908BB1EF7C4B2003C020B /* Book */,
 				8585835F1EEC74830024C9AA /* Homepage */,
 			);
@@ -181,6 +208,8 @@
 			children = (
 				858583601EEC750F0024C9AA /* TKHomepageViewController.swift */,
 				858583611EEC750F0024C9AA /* TKHomepageViewController.xib */,
+				857E25D41EFE70ED000EEDCC /* TKBookCollectionViewCell.swift */,
+				857E25D51EFE70ED000EEDCC /* TKBookCollectionViewCell.xib */,
 			);
 			path = Homepage;
 			sourceTree = "<group>";
@@ -207,10 +236,10 @@
 			isa = PBXGroup;
 			children = (
 				855436EF1EF183CE00D7A4B0 /* Libs */,
-				8585835E1EEC746F0024C9AA /* ViewControllers */,
 				8585835D1EEC73D00024C9AA /* Util */,
 				858583581EEC6A760024C9AA /* UIKit_Base */,
 				858583571EEC6A0D0024C9AA /* Services */,
+				8585835E1EEC746F0024C9AA /* ViewControllers */,
 				8597A62E1EEC50AF00A5A836 /* AppDelegate.swift */,
 				8597A6301EEC50AF00A5A836 /* ViewController.swift */,
 				8597A6351EEC50AF00A5A836 /* Assets.xcassets */,
@@ -335,7 +364,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				857E25D71EFE70ED000EEDCC /* TKBookCollectionViewCell.xib in Resources */,
+				857062A31EFEA54300F0FC47 /* TKSearchViewController.xib in Resources */,
 				85BBF7AF1EFDC97300638A8D /* tag.in in Resources */,
+				857062AB1EFEC9DB00F0FC47 /* TKSearchResultCell.xib in Resources */,
 				8597A6391EEC50AF00A5A836 /* LaunchScreen.storyboard in Resources */,
 				85BBF7A91EFDC97300638A8D /* char_ref.rl in Resources */,
 				858583631EEC750F0024C9AA /* TKHomepageViewController.xib in Resources */,
@@ -402,7 +434,6 @@
 				855908C71EF7C9FD003C020B /* TKBookViewController.swift in Sources */,
 				8597A6311EEC50AF00A5A836 /* ViewController.swift in Sources */,
 				85BBF77D1EFD7E2100638A8D /* TKNovelService.swift in Sources */,
-				8536AF3F1EFA933A00887447 /* TKChapter.swift in Sources */,
 				85BBF7AB1EFDC97300638A8D /* parser.c in Sources */,
 				85BBF7B01EFDC97300638A8D /* tokenizer.c in Sources */,
 				85BBF7861EFDC8D200638A8D /* OCGumbo+Query.m in Sources */,
@@ -412,13 +443,18 @@
 				85BBF7B11EFDC97300638A8D /* utf8.c in Sources */,
 				85BBF7AA1EFDC97300638A8D /* error.c in Sources */,
 				85BBF7A81EFDC97300638A8D /* char_ref.c in Sources */,
+				857E25D61EFE70ED000EEDCC /* TKBookCollectionViewCell.swift in Sources */,
 				85BBF7AC1EFDC97300638A8D /* string_buffer.c in Sources */,
 				85621D1D1EF831B300EEC8DD /* TKBookConfig.swift in Sources */,
 				858583621EEC750F0024C9AA /* TKHomepageViewController.swift in Sources */,
+				857062AA1EFEC9DB00F0FC47 /* TKSearchResultCell.swift in Sources */,
 				85BBF7B51EFDEF3D00638A8D /* TKNovelSource.swift in Sources */,
+				857062A61EFEA77700F0FC47 /* TKSearchResultViewController.swift in Sources */,
 				85BBF7B31EFDC97300638A8D /* vector.c in Sources */,
 				8597A62F1EEC50AF00A5A836 /* AppDelegate.swift in Sources */,
+				857E25D31EFE6A81000EEDCC /* Configure.swift in Sources */,
 				85BBF7B21EFDC97300638A8D /* util.c in Sources */,
+				857062A21EFEA54300F0FC47 /* TKSearchViewController.swift in Sources */,
 				85BBF7AE1EFDC97300638A8D /* tag.c in Sources */,
 				85BBF7A71EFDC97300638A8D /* attribute.c in Sources */,
 			);

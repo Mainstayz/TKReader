@@ -8,45 +8,98 @@
 
 import UIKit
 
-class TKHomepageViewController: TKViewController,UITableViewDataSource,UITableViewDelegate {
 
-    @IBOutlet weak var tableView: UITableView!
+class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate{
+
+    var books = [TKNovelDetail]()
+    var itemSize : CGSize!
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-   
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
         
-        // Do any additional setup after loading the view.
+        
+        
+        let row : CGFloat = 3.0
+        let width = (CGFloat)((UIScreen.main.bounds.width - (CGFloat)(row+1.0) * 10)/row)
+        let height = width * 12.0 / 9 + 40
+        itemSize = CGSize(width: width, height: height)
+
+        
+        self.collectionView.register(UINib(nibName: "TKBookCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "bookCell")
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
+        
+        
+        let  b =  TKNovelDetail()
+        b.url = "11111"
+        let  b1 =  TKNovelDetail()
+        b.url = "1111221"
+        let  b2 =  TKNovelDetail()
+        b.url = "111331211"
+        let  b3 =  TKNovelDetail()
+        b.url = "1114412311"
+        let  b4 =  TKNovelDetail()
+        b.url = "11113111"
+        
+        books.append(b)
+        books.append(b1)
+        books.append(b2)
+        books.append(b3)
+        books.append(b4)
+        
+        
+        self.collectionView.reloadData()
+        
+        
+        
+        let right = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(pushSearchViewController))
+        self.navigationItem.rightBarButtonItem = right;
+        
+    }
+    
+    
+    func pushSearchViewController(){
+        let searchViewController = TKSearchViewController()
+        let nv = TKNavigationController(rootViewController: searchViewController)
+        self.present(nv, animated: true, completion: nil)
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.books.count
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "bookCell", for: indexPath)
+        return cell
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return self.itemSize
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(10, 10, 10, 10)
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
-    }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "cee")
-        if (cell == nil) {
-            cell = UITableViewCell(style: .default, reuseIdentifier: "cee")
-        }
-        cell?.textLabel?.text = String(format: "%d", indexPath.row )
-        
-        return cell!
-        
-    }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(TKBookViewController(), animated: true);
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     override var prefersStatusBarHidden: Bool{
         return false
     }
@@ -54,15 +107,4 @@ class TKHomepageViewController: TKViewController,UITableViewDataSource,UITableVi
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation{
         return .slide
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
