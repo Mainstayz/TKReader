@@ -13,29 +13,12 @@ import FontAwesomeKit
 class TKBookViewController: TKViewController {
 
     
-    var bookView : TKBookView?
     var isHiddenToolViews : Bool = true
-    var aNavigationBar : UINavigationBar?
-    
-    
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        let bar = UINavigationBar(frame: CGRect(x: 0, y: -64, width: UIScreen.main.bounds.width, height: 64))
-        
-        let arrowLeftIcon = FAKFontAwesome.angleLeftIcon(withSize: 30)
-        arrowLeftIcon?.addAttribute(NSForegroundColorAttributeName, value: TKBookConfig.sharedInstance.textColor)
-        let arrowLeftImage = arrowLeftIcon?.image(with: CGSize(width: 24, height: 30)).withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-        
-//        let backItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action:#selector(back))
-        let backItem = UIBarButtonItem(image: arrowLeftImage, style: .plain, target: self, action: #selector(back))
-        let navItem = UINavigationItem()
-        navItem.leftBarButtonItem = backItem
-        bar.pushItem(navItem, animated: false)
-        bar.barTintColor = TKBookConfig.sharedInstance.backgroundColor
-        self.aNavigationBar = bar
-
+    
         
         let str = "坦白说，作为一个内向的人，我没什么资格说这个话题。\n9年以前，我都还是一个习惯性地在人多的饭桌上低头吃饭，全无存在感的人。内向这个词儿那时候对我来说是一层安全的保护伞，让我与这个世界都始终隔着点什么。\n或许很多人从小就和我一样，被教育成要做一个老实的孩子，老实就意味着要少说话，不招摇，少表现，你要和所有普通的大多数一样。这个观念让我学会了遇事不要出风头，别总是人前炫耀，我原本以为那些爱嘚瑟的人最后也会和我一样碌碌无为，但好像并不是那样，他们提早比我出过了风头，提早比我体会到了失败和教训，他们对痛苦和挫折的承受力是我的几倍，而不知道从什么时候起，我开始越来越怕，怕改变，怕不确定，怕犯错，怕被人指责，我变得越来越喜欢活在自己的小世界里。\n有时候我也不是我也不是不羡慕，看着和我同批进公司的同事一路成长，看着他们能一面搞定客户，一面和上司侃侃而谈，我也羡慕嫉妒恨，但内心里总有一个小小、自卑的自己对我说：羡慕有什么用？我和人家又不一样，有些事我根本就做不到。\n因为内向，我对新环境的融入程度总会比其他人来得更长一些，我总是给自己找理由称这是慢热，但直到我入职半年，许多同事都还对我没印象的时候，我才发现，其实或许不是同事不能记得我，而是我从一开始就没有给对方留下深刻的记忆点。\n内向带来的最大的麻烦是沟通。\n明明只要几句话就可以把核心问题圈定出来，我却因为不敢问，或者是忌惮对方强势的气场，最后默默加了很多冤枉的班，搞错了很多方向，往往需要花两倍的时间才能搞定一个小事情，收获的除了挫败感之外，还有对自己深深的懊恼和看不起。\n内向带来的第二个麻烦是让你投了逃避的借口。\n有段时间我已经习惯性地把内向当做工作做得不好，职场人缘不好的理由，反正因为我本来就是一个内向的人，所以才会这么的不讨人喜欢吧？\n内向，没有帮助我建立任何自信，反倒是蚕食掉了我所有的信心。\n那时候我已经是一个工作了五年的老人，职场上混的完全没有任何起色，我没有目标、也不知道自己能干什么、会什么，有时候我甚至都不知道，如果有一天我被公司开除了，我还能做什么？哪个公司还会要我。\n不论是对自己，还是对人生都充满了丧气和绝望，或许我这辈子也就这样了吧！我真的曾经这样想过。\n如果不是因为奥运会那年的金融危机，全行业大裁员，我或许不会被震醒。\n那一年我们公司也遭遇了大裁员，我一直都担心我会被裁掉，因为当危机来临的时候我环顾了一下周遭的同事，对比之后才发现，我的存在感最低，我很可能会被当做最无用的那个人被裁掉。那阶段我特别焦虑，直到后来通知出来，发现是我的直属领导被裁掉，才长出了一口气，但原本的部门被解散，我也被迫合并到了公关部。\n公关部是一个靠说话才能活下去的地方，面对领导要说话，面对客户要说话，面对供应商你也一样要说话。我记得我第一次去活动现场，带我的人只对我说了二十分钟的话就忙自己的事情去了，我一个人要对接现场的6个供应商，从桌椅的摆放到鲜花和音响，每个人都要来问我的意见，这时候逃避没有用，即便我内心再害怕，都只能硬着头皮迎头赶上。\n那时候我资历最浅，负责最远、周期最长的项目跟踪，我精神高度紧张，每晚失眠，我要随时面对现场可能出现的各种各样的问题，第一时间想到解决办法。有段时间忙完一天的活动在打车回去的路上我就忍不住鼻子酸酸的，我总觉得自己辛苦的不是身体，而是内心有一种别扭，我为什么非要做自己不喜欢、不擅长的事呢？我这么委屈自己到底是为了什么？\n我内心里知道答案，因为现在经济形势不好，工作也不好找，我如果辞职肯定会找不到工作，我只能忍，别无选择。\n让我做出改变决定的是有一天我忙完了又一场鸡飞狗跳的活动之后，回去的车上打开手机看到日历才发现今天是自己三十岁的生日，回到住处的时候已经晚上十点多了，我在楼下的小吃摊点了一碗青菜面，给自己过了最简单的一个生日，那时我对自己说，我前三十年都活得的那么窝囊，从明天起，我想活得不一样一些，既然现在我决定不了未来的方向，那不如就接受这个安排，鼓起勇气，和它拼一个你死我活！\n我从没想过要一夜之间打碎那个内向的自己，我为自己做了三个方面小的提示。\n1.调整心态和看问题的角度。\n以前我很讨厌变化和不确定，因为我总是担心会出现什么意外是自己无法解决的，后来我问自己，即便你搞砸了，又能怎样？你最多就是挨领导的一顿骂，你会因此丢了工作么？\n即便你丢了，你去下一份工作，你依旧还是要去解决类似的问题，所以不要因为怕挨骂，就祈祷问题不出现，而是要多想想，如果问题出现了，我能不能给出两个以上的解决办法。\n哪怕这两个办法不可行，至少我实验过了，下次遇到同类型的问题，我离找到正确答案的几率又多了百分之二。\n我以前总觉得所有遇到的问题是敌人，如果换个角度，或许我所有遇到的问题其实都是考题，我做对了，我就积累的分数和经验值，那我为什么不期待有更多的问题出现，解决的越多，升级才越快啊！\n2.做出第一步，从一个小目标开始。\n改变不容易，我从一开始就知道，所以为了让自己能鼓起勇气去改变，做和昨天\n不一样的自己，我换了一条去公司的路，每次一踏上这条路我就提示自己，今天的你已经不一样了。\n我给自己定了一个小任务，每天早晨最少和公司的十位同事打招呼，哪怕说句你好都可以。\n每天中午强迫自己必须和大家一起吃工作餐，吃饭的时候不再低头，不论别人说什么，都要至少能让自己有机会说上五句话。\n3.善用小仪式，赶走怨气获得源动力\n改变最开始的时候一定是最痛苦的，尤其是当你不得章法屡屡受挫的时候，这时候换心情调整角度是必要的，但是如果这两招都不那么奏效，或许你还需要自带一个“充电宝”。\n我自己的充电宝其实就是寻找自己内心里你觉得最高大上的样子，找一个东西去和内心里那个你觉得无所不能的自己去做连接，我用的是领带。\n因为我一直都特别羡慕那些影视剧里穿正装的白领，他们专业到位，特别精英范儿，我一直都羡慕，希望有一天能像他们一样。但是公司里大家也没有谁穿正装，我当时还没有勇气搞一身西服过去，于是就折中了一下，选择了领带。\n别小看这一条破带子，每次为了打好它我至少都需要提前预留出15分钟才行，在一遍一遍对着镜子打领带的过程里，我看着镜子里的自己，一点点变得像我想象的那些精英一样，专业、自信、有气场，基本上这大半天都能维持元气满满的状态。\n打上领带之后，我做事应对的方式也逐渐从原来苦着脸说我不行，到后来开心地说我试试。我想，就是这么一点一滴，积沙成达，把每一滴自己的闪光汇聚到了一起，或许才逐渐变成了后来那个叫做“自信”的东西吧！\n时至今日，我也不敢说自己是一个特别外向的人，但是至少我现在敢说，我已经不再是早年那个自卑内向的自己，我敢说、敢表达，我敢拒绝，敢决策，希望以上我分享的这些关于内向的种种，能对你有点帮助。"
         
@@ -47,124 +30,8 @@ class TKBookViewController: TKViewController {
         
         let attStr = NSAttributedString(string: str, attributes: TKBookConfig.sharedInstance.attDic)
 
-        self.automaticallyAdjustsScrollViewInsets = false
-        
-        self.bookView = TKBookView(frame: self.view.bounds)
-        self.bookView?.autoresizingMask = [.flexibleHeight,.flexibleWidth]
-        self.bookView?.bookMarkup = attStr
-        self.bookView?.backgroundColor = TKBookConfig.sharedInstance.backgroundColor;
-        self.bookView?.aDelegate = self
-        self.bookView?.location = 500
-        
-        
-        let chapterTitle = "haa";
-    
-        self.bookView?.chapterTitle = NSAttributedString(string: chapterTitle, attributes: TKBookConfig.sharedInstance.titleAttDic)
-        
-        self.view.addSubview(self.bookView!)
-        
-        let tapFunc = #selector(tap(gesture:))
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action:tapFunc)
-        self.view.addGestureRecognizer(tapGesture)
-        
-        
-        
-        
-        self.view.addSubview(bar)
         
         // Do any additional setup after loading the view.
     }
     
-    
-    func back() -> Void {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func tap(gesture:UIGestureRecognizer) -> Void {
-       
-        self.switchStatus()
-    }
-    
-    func switchStatus() -> Void {
-        self.isHiddenToolViews = !self.isHiddenToolViews
-        UIView.animate(withDuration: TimeInterval(UINavigationControllerHideShowBarDuration), delay: 0.0, options: [.layoutSubviews,.curveLinear], animations: {
-            self.navigationBarHidden(self.isHiddenToolViews)
-            self.setNeedsStatusBarAppearanceUpdate()
-        }, completion: { (finish) in
-            
-        })
-    }
-    
-    
-    func navigationBarHidden(_ hidden:Bool) -> Void {
-        
-        let navBar = self.aNavigationBar;
-        
-        if !hidden{
-            navBar?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 64)
-        }else{
-            navBar?.frame = CGRect(x: 0, y: -64, width: UIScreen.main.bounds.width, height: 64)
-        }
-        
-
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        super.viewWillDisappear(animated)
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-         self.bookView?.buildFrames()
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        super.viewWillDisappear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override var prefersStatusBarHidden: Bool{
-        return self.isHiddenToolViews ? true : false
-    }
-
-    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation{
-        return .slide
-    }
-    
-    
-    // MARK: - TKBookViewDelegate
-
-    
-    func bookViewWillBeginLoading() {
-        
-        print("处理中")
-    }
-    
-    func bookViewDidEndLoading() {
-        print("处理结束")
-    }
-    
-    func bookViewWillBeginDragging(_ bookView: TKBookView) {
-        if self.isHiddenToolViews {
-            return
-        }
-        self.switchStatus()
-    }
-    
-    func bookViewDidEndDecelerating(_ bookView: TKBookView, _ location: Int) {
-        print("当前阅读的位置： \(location)")
-    }
-}
+  }

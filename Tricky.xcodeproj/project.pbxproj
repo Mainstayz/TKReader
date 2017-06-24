@@ -18,6 +18,24 @@
 		8597A6311EEC50AF00A5A836 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597A6301EEC50AF00A5A836 /* ViewController.swift */; };
 		8597A6361EEC50AF00A5A836 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8597A6351EEC50AF00A5A836 /* Assets.xcassets */; };
 		8597A6391EEC50AF00A5A836 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8597A6371EEC50AF00A5A836 /* LaunchScreen.storyboard */; };
+		85BBF77D1EFD7E2100638A8D /* TKNovelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF77C1EFD7E2100638A8D /* TKNovelService.swift */; };
+		85BBF77F1EFDA03D00638A8D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF77E1EFDA03D00638A8D /* Extensions.swift */; };
+		85BBF7861EFDC8D200638A8D /* OCGumbo+Query.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7831EFDC8D200638A8D /* OCGumbo+Query.m */; };
+		85BBF7871EFDC8D200638A8D /* OCGumbo.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7851EFDC8D200638A8D /* OCGumbo.m */; };
+		85BBF7A71EFDC97300638A8D /* attribute.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7881EFDC97300638A8D /* attribute.c */; };
+		85BBF7A81EFDC97300638A8D /* char_ref.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF78A1EFDC97300638A8D /* char_ref.c */; };
+		85BBF7A91EFDC97300638A8D /* char_ref.rl in Resources */ = {isa = PBXBuildFile; fileRef = 85BBF78C1EFDC97300638A8D /* char_ref.rl */; };
+		85BBF7AA1EFDC97300638A8D /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF78D1EFDC97300638A8D /* error.c */; };
+		85BBF7AB1EFDC97300638A8D /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7911EFDC97300638A8D /* parser.c */; };
+		85BBF7AC1EFDC97300638A8D /* string_buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7931EFDC97300638A8D /* string_buffer.c */; };
+		85BBF7AD1EFDC97300638A8D /* string_piece.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7951EFDC97300638A8D /* string_piece.c */; };
+		85BBF7AE1EFDC97300638A8D /* tag.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF79B1EFDC97300638A8D /* tag.c */; };
+		85BBF7AF1EFDC97300638A8D /* tag.in in Resources */ = {isa = PBXBuildFile; fileRef = 85BBF79C1EFDC97300638A8D /* tag.in */; };
+		85BBF7B01EFDC97300638A8D /* tokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF79F1EFDC97300638A8D /* tokenizer.c */; };
+		85BBF7B11EFDC97300638A8D /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7A11EFDC97300638A8D /* utf8.c */; };
+		85BBF7B21EFDC97300638A8D /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7A31EFDC97300638A8D /* util.c */; };
+		85BBF7B31EFDC97300638A8D /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7A51EFDC97300638A8D /* vector.c */; };
+		85BBF7B51EFDEF3D00638A8D /* TKNovelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7B41EFDEF3D00638A8D /* TKNovelSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +53,44 @@
 		8597A6351EEC50AF00A5A836 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8597A6381EEC50AF00A5A836 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8597A63A1EEC50AF00A5A836 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85BBF77C1EFD7E2100638A8D /* TKNovelService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKNovelService.swift; sourceTree = "<group>"; };
+		85BBF77E1EFDA03D00638A8D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		85BBF7821EFDC8D200638A8D /* OCGumbo+Query.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCGumbo+Query.h"; sourceTree = "<group>"; };
+		85BBF7831EFDC8D200638A8D /* OCGumbo+Query.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OCGumbo+Query.m"; sourceTree = "<group>"; };
+		85BBF7841EFDC8D200638A8D /* OCGumbo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCGumbo.h; sourceTree = "<group>"; };
+		85BBF7851EFDC8D200638A8D /* OCGumbo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCGumbo.m; sourceTree = "<group>"; };
+		85BBF7881EFDC97300638A8D /* attribute.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attribute.c; sourceTree = "<group>"; };
+		85BBF7891EFDC97300638A8D /* attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attribute.h; sourceTree = "<group>"; };
+		85BBF78A1EFDC97300638A8D /* char_ref.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = char_ref.c; sourceTree = "<group>"; };
+		85BBF78B1EFDC97300638A8D /* char_ref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = char_ref.h; sourceTree = "<group>"; };
+		85BBF78C1EFDC97300638A8D /* char_ref.rl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = char_ref.rl; sourceTree = "<group>"; };
+		85BBF78D1EFDC97300638A8D /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
+		85BBF78E1EFDC97300638A8D /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
+		85BBF78F1EFDC97300638A8D /* gumbo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gumbo.h; sourceTree = "<group>"; };
+		85BBF7901EFDC97300638A8D /* insertion_mode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = insertion_mode.h; sourceTree = "<group>"; };
+		85BBF7911EFDC97300638A8D /* parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parser.c; sourceTree = "<group>"; };
+		85BBF7921EFDC97300638A8D /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
+		85BBF7931EFDC97300638A8D /* string_buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = string_buffer.c; sourceTree = "<group>"; };
+		85BBF7941EFDC97300638A8D /* string_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_buffer.h; sourceTree = "<group>"; };
+		85BBF7951EFDC97300638A8D /* string_piece.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = string_piece.c; sourceTree = "<group>"; };
+		85BBF7961EFDC97300638A8D /* string_piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_piece.h; sourceTree = "<group>"; };
+		85BBF7971EFDC97300638A8D /* tag_enum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tag_enum.h; sourceTree = "<group>"; };
+		85BBF7981EFDC97300638A8D /* tag_gperf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tag_gperf.h; sourceTree = "<group>"; };
+		85BBF7991EFDC97300638A8D /* tag_sizes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tag_sizes.h; sourceTree = "<group>"; };
+		85BBF79A1EFDC97300638A8D /* tag_strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tag_strings.h; sourceTree = "<group>"; };
+		85BBF79B1EFDC97300638A8D /* tag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tag.c; sourceTree = "<group>"; };
+		85BBF79C1EFDC97300638A8D /* tag.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tag.in; sourceTree = "<group>"; };
+		85BBF79D1EFDC97300638A8D /* token_type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = token_type.h; sourceTree = "<group>"; };
+		85BBF79E1EFDC97300638A8D /* tokenizer_states.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tokenizer_states.h; sourceTree = "<group>"; };
+		85BBF79F1EFDC97300638A8D /* tokenizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tokenizer.c; sourceTree = "<group>"; };
+		85BBF7A01EFDC97300638A8D /* tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tokenizer.h; sourceTree = "<group>"; };
+		85BBF7A11EFDC97300638A8D /* utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utf8.c; sourceTree = "<group>"; };
+		85BBF7A21EFDC97300638A8D /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
+		85BBF7A31EFDC97300638A8D /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
+		85BBF7A41EFDC97300638A8D /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		85BBF7A51EFDC97300638A8D /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vector.c; sourceTree = "<group>"; };
+		85BBF7A61EFDC97300638A8D /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
+		85BBF7B41EFDEF3D00638A8D /* TKNovelSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKNovelSource.swift; sourceTree = "<group>"; };
 		933169DC7937179D2B9D31A7 /* Pods-Tricky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tricky.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tricky/Pods-Tricky.release.xcconfig"; sourceTree = "<group>"; };
 		D1233DE8BA99300355CA0672 /* Pods_Tricky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tricky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -71,6 +127,7 @@
 		855436EF1EF183CE00D7A4B0 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				85BBF7801EFDC8D200638A8D /* OCGumbo */,
 			);
 			path = Libs;
 			sourceTree = "<group>";
@@ -88,6 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				85621D1C1EF831B300EEC8DD /* TKBookConfig.swift */,
+				85BBF77C1EFD7E2100638A8D /* TKNovelService.swift */,
+				85BBF7B41EFDEF3D00638A8D /* TKNovelSource.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -103,6 +162,7 @@
 		8585835D1EEC73D00024C9AA /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				85BBF77E1EFDA03D00638A8D /* Extensions.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -159,6 +219,56 @@
 				858583531EEC625F0024C9AA /* Tricky-Bridging-Header.h */,
 			);
 			path = Tricky;
+			sourceTree = "<group>";
+		};
+		85BBF7801EFDC8D200638A8D /* OCGumbo */ = {
+			isa = PBXGroup;
+			children = (
+				85BBF7811EFDC8D200638A8D /* gumbo */,
+				85BBF7821EFDC8D200638A8D /* OCGumbo+Query.h */,
+				85BBF7831EFDC8D200638A8D /* OCGumbo+Query.m */,
+				85BBF7841EFDC8D200638A8D /* OCGumbo.h */,
+				85BBF7851EFDC8D200638A8D /* OCGumbo.m */,
+			);
+			path = OCGumbo;
+			sourceTree = "<group>";
+		};
+		85BBF7811EFDC8D200638A8D /* gumbo */ = {
+			isa = PBXGroup;
+			children = (
+				85BBF7881EFDC97300638A8D /* attribute.c */,
+				85BBF7891EFDC97300638A8D /* attribute.h */,
+				85BBF78A1EFDC97300638A8D /* char_ref.c */,
+				85BBF78B1EFDC97300638A8D /* char_ref.h */,
+				85BBF78C1EFDC97300638A8D /* char_ref.rl */,
+				85BBF78D1EFDC97300638A8D /* error.c */,
+				85BBF78E1EFDC97300638A8D /* error.h */,
+				85BBF78F1EFDC97300638A8D /* gumbo.h */,
+				85BBF7901EFDC97300638A8D /* insertion_mode.h */,
+				85BBF7911EFDC97300638A8D /* parser.c */,
+				85BBF7921EFDC97300638A8D /* parser.h */,
+				85BBF7931EFDC97300638A8D /* string_buffer.c */,
+				85BBF7941EFDC97300638A8D /* string_buffer.h */,
+				85BBF7951EFDC97300638A8D /* string_piece.c */,
+				85BBF7961EFDC97300638A8D /* string_piece.h */,
+				85BBF7971EFDC97300638A8D /* tag_enum.h */,
+				85BBF7981EFDC97300638A8D /* tag_gperf.h */,
+				85BBF7991EFDC97300638A8D /* tag_sizes.h */,
+				85BBF79A1EFDC97300638A8D /* tag_strings.h */,
+				85BBF79B1EFDC97300638A8D /* tag.c */,
+				85BBF79C1EFDC97300638A8D /* tag.in */,
+				85BBF79D1EFDC97300638A8D /* token_type.h */,
+				85BBF79E1EFDC97300638A8D /* tokenizer_states.h */,
+				85BBF79F1EFDC97300638A8D /* tokenizer.c */,
+				85BBF7A01EFDC97300638A8D /* tokenizer.h */,
+				85BBF7A11EFDC97300638A8D /* utf8.c */,
+				85BBF7A21EFDC97300638A8D /* utf8.h */,
+				85BBF7A31EFDC97300638A8D /* util.c */,
+				85BBF7A41EFDC97300638A8D /* util.h */,
+				85BBF7A51EFDC97300638A8D /* vector.c */,
+				85BBF7A61EFDC97300638A8D /* vector.h */,
+			);
+			path = gumbo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,7 +335,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85BBF7AF1EFDC97300638A8D /* tag.in in Resources */,
 				8597A6391EEC50AF00A5A836 /* LaunchScreen.storyboard in Resources */,
+				85BBF7A91EFDC97300638A8D /* char_ref.rl in Resources */,
 				858583631EEC750F0024C9AA /* TKHomepageViewController.xib in Resources */,
 				8597A6361EEC50AF00A5A836 /* Assets.xcassets in Resources */,
 			);
@@ -286,13 +398,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85BBF7871EFDC8D200638A8D /* OCGumbo.m in Sources */,
 				855908C71EF7C9FD003C020B /* TKBookViewController.swift in Sources */,
 				8597A6311EEC50AF00A5A836 /* ViewController.swift in Sources */,
+				85BBF77D1EFD7E2100638A8D /* TKNovelService.swift in Sources */,
 				8536AF3F1EFA933A00887447 /* TKChapter.swift in Sources */,
+				85BBF7AB1EFDC97300638A8D /* parser.c in Sources */,
+				85BBF7B01EFDC97300638A8D /* tokenizer.c in Sources */,
+				85BBF7861EFDC8D200638A8D /* OCGumbo+Query.m in Sources */,
+				85BBF77F1EFDA03D00638A8D /* Extensions.swift in Sources */,
+				85BBF7AD1EFDC97300638A8D /* string_piece.c in Sources */,
 				8585835C1EEC6DC60024C9AA /* Common.swift in Sources */,
+				85BBF7B11EFDC97300638A8D /* utf8.c in Sources */,
+				85BBF7AA1EFDC97300638A8D /* error.c in Sources */,
+				85BBF7A81EFDC97300638A8D /* char_ref.c in Sources */,
+				85BBF7AC1EFDC97300638A8D /* string_buffer.c in Sources */,
 				85621D1D1EF831B300EEC8DD /* TKBookConfig.swift in Sources */,
 				858583621EEC750F0024C9AA /* TKHomepageViewController.swift in Sources */,
+				85BBF7B51EFDEF3D00638A8D /* TKNovelSource.swift in Sources */,
+				85BBF7B31EFDC97300638A8D /* vector.c in Sources */,
 				8597A62F1EEC50AF00A5A836 /* AppDelegate.swift in Sources */,
+				85BBF7B21EFDC97300638A8D /* util.c in Sources */,
+				85BBF7AE1EFDC97300638A8D /* tag.c in Sources */,
+				85BBF7A71EFDC97300638A8D /* attribute.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

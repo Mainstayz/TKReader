@@ -19,13 +19,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        
         let homepage = TKHomepageViewController(nibName: "TKHomepageViewController", bundle: nil);
         let navigation = TKNavigationController(rootViewController: homepage)
         self.window?.rootViewController = navigation;
         self.window?.makeKeyAndVisible()
         self.window?.backgroundColor = UIColor.white
+        
+        
+        
+        //test
+        
+//        TKNovelService.searchNovel(source: TKSearchSource.Biquge, keyword: "修真聊天群", page)
+//        TKNovelService.searchNovel(source: TKBiqugeSource().source, keyword: "修真聊天群", page: 0, completion: {(list) in
+//            print(list)
+//        })
+        
+        
+//        TKNovelService.novelDetail(url: "http://www.xs.la/36_36007/", source: TKBiqugeSource()) { (data) in
+//            
+//        }
 
+        TKNovelService.chapterDetail(url: "http://www.xs.la/36_36007/1902571.html", source: TKBiqugeSource()) { (content) in
+            print(content)
+        }
+        
         return true
     }
 
