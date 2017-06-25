@@ -45,10 +45,14 @@ class TKBookshelfService: NSObject {
                 let unarchiver:NSKeyedUnarchiver = NSKeyedUnarchiver(forReadingWith: data!)
                 // 解码
                 let books = unarchiver.decodeObject(forKey: "books") as? [TKNovelModel]
+                
+                let vaild =  books?.filter({ (model) -> Bool in
+                     return model.url != nil
+                })
                 // 解码完成
                 unarchiver.finishDecoding()
         
-                completion(books)
+                completion(vaild)
                 
                 NotificationCenter.default.post(name:.init(TKBookshelfNotificationDidGetBooksFromCache), object: nil, userInfo: nil)
                 

@@ -60,7 +60,6 @@ class Biquge : TKNovelSource {
         
         let document = OCGumboDocument(htmlString: string)
         
-//        let head = document?.query("head")
         
         let model = TKNovelModel.init()
         

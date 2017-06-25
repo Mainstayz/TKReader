@@ -49,20 +49,24 @@ extension FileManager{
         }
         
         let rootPath = self.novelRootPath()
-        let novelPath = rootPath + "/\(title)/"
+        let novelPath = rootPath + "\(title)/"
         let suc =  self.creatDirectory(path: novelPath)
         
         guard suc == true else {
             return
         }
         
-        let chapterPath = novelPath + "/\(chapterUrl.md5())"
+        let chapterPath = novelPath + "\(chapterUrl.md5())"
         
         
         let queue = DispatchQueue(label: "com.saveNove.tk")
         queue.async {
             do{
+                
                 try content.write(toFile: chapterPath, atomically: true, encoding: .utf8)
+
+                print("保存成功----\(chapterPath)")
+            
             }catch let error as NSError {
                 print("Error save directory: \(error.localizedDescription)")
             }
@@ -71,13 +75,13 @@ extension FileManager{
     }
     
     
-    func chapterPath(title:String, chapterUrl: String) -> String?{
-        guard title.count > 0 && chapterUrl.count > 0 else {
+    func chapterPath(title:String?, chapterUrl: String?) -> String?{
+        guard title != nil && chapterUrl != nil else {
             return nil
         }
         
         let rootPath = self.novelRootPath()
-        let chapterPath = rootPath+"/\(title)/"+"/\(chapterUrl.md5())"
+        let chapterPath = rootPath+"\(title!)/"+"\(chapterUrl!.md5())"
 
         
         let isExist = self.fileExists(atPath: chapterPath)
@@ -96,7 +100,7 @@ extension FileManager{
         }
         
         let rootPath = self.novelRootPath()
-        let novelPath = rootPath+"/\(title)"
+        let novelPath = rootPath+"\(title)/"
         
         do{
             try self.removeItem(atPath: novelPath)

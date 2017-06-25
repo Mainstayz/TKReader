@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let homepage = TKHomepageViewController(nibName: "TKHomepageViewController", bundle: nil);
         let navigation = TKNavigationController(rootViewController: homepage)
+        
         self.window?.rootViewController = navigation;
         self.window?.makeKeyAndVisible()
         self.window?.backgroundColor = UIColor.white

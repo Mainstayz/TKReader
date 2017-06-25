@@ -28,11 +28,15 @@ class TKNovelService{
     }
     
     
-    static func novelDetail(url: String, source:TKNovelSourceKey,completion: @escaping (_ detail : TKNovelModel?)->()){
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
+    static func novelDetail(url: String?, source:TKNovelSourceKey?,completion: @escaping (_ detail : TKNovelModel?)->()){
+        guard url != nil && source != nil else {
+            completion(nil)
+            return
+        }
+        
+        Alamofire.request(url!, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
             if let data = responseData.data{
-                
-                let aSource = self.sourceInstalce(type: source)
+                let aSource = self.sourceInstalce(type: source!)
                 aSource.novelDetail(responseData: data, completion: { (datail) in
                     datail?.source = source
                     completion(datail)
@@ -42,10 +46,15 @@ class TKNovelService{
     }
     
     
-    static func chapterDetail(url: String, source:TKNovelSourceKey,completion: @escaping (_ detail : String?)->()){
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
+    static func chapterDetail(url: String?, source:TKNovelSourceKey?,completion: @escaping (_ detail : String?)->()){
+        guard url != nil && source != nil else {
+            completion(nil)
+            return
+        }
+        
+        Alamofire.request(url!, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
             if let data = responseData.data{
-                let source = self.sourceInstalce(type: source)
+                let source = self.sourceInstalce(type: source!)
                 source.chapterDetail(responseData: data, completion: { (content) in
                     completion(content)
                 })

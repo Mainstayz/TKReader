@@ -33,7 +33,6 @@ class TKBookConfig {
         paragraphStyle.minimumLineHeight = fontSize!
         paragraphStyle.maximumLineHeight = fontSize!
         
-        
         let attributeDic = [NSFontAttributeName:UIFont(name: "PingFang SC", size: fontSize!)!,NSParagraphStyleAttributeName:paragraphStyle,NSForegroundColorAttributeName:textColor!] as [String : Any]
         return attributeDic
         
@@ -54,9 +53,10 @@ class TKBookConfig {
         paragraphSpacing = 0
         firstLineHeadIndent = 2
         textColor = UIColor.flatBlack
-        backgroundColor = UIColor.flatSand
+        backgroundColor = UIColor.init(hexString: "FAF9DE")
+        
         titleColor = UIColor.flatBlack.withAlphaComponent(0.7)
         pageColor = UIColor.flatBlack.withAlphaComponent(0.7)
-        fontSize = 20.0
+        fontSize = 14.0
     }
 }

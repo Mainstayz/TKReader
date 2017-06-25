@@ -11,6 +11,7 @@ import UIKit
 class TKChapterModel : NSObject, NSCoding{
     var chapterName : String?
     var chapterUrl : String?
+    
     override init() {
         super.init()
         
