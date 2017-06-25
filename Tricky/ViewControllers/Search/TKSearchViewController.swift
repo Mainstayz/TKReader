@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TKSearchViewController: TKViewController {
+class TKSearchViewController: TKViewController,UISearchBarDelegate {
 
 
     
@@ -36,7 +36,9 @@ class TKSearchViewController: TKViewController {
         super.viewDidLoad()
         
         resultsTableController = TKSearchResultViewController(style: .plain)
- 
+//        self.addChildViewController(resultsTableController)
+//        resultsTableController.didMove(toParentViewController: self)
+        
         searchController = UISearchController(searchResultsController: resultsTableController)
 
         searchController.searchBar.showsCancelButton = true
@@ -46,7 +48,7 @@ class TKSearchViewController: TKViewController {
         
     
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.delegate = resultsTableController
+        searchController.searchBar.delegate = self
         
         definesPresentationContext = true
 
@@ -68,6 +70,20 @@ class TKSearchViewController: TKViewController {
     }
     
  
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        resultsTableController.page = 0
+        if let text = searchBar.text{
+            resultsTableController.keyword = text.trimmingCharacters(in: .whitespaces)
+            resultsTableController.search(keyword: resultsTableController.keyword!)
+        }
+        
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.dismiss(animated: true, completion: nil)
+    }
 
     
     // MARK: - UIStateRestoration

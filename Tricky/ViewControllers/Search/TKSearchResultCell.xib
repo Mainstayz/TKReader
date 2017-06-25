@@ -72,7 +72,7 @@
                 <outlet property="imgView" destination="cgu-u4-si6" id="AvJ-k4-LfG"/>
                 <outlet property="titleLab" destination="vE3-y9-W4b" id="359-ER-LEP"/>
             </connections>
-            <point key="canvasLocation" x="-138" y="-2"/>
+            <point key="canvasLocation" x="-395" y="-9"/>
         </tableViewCell>
     </objects>
 </document>

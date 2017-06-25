@@ -9,12 +9,15 @@
 import Foundation
 
 
-class TKNovelSource : TKNovelParseProtocol  {
+class TKNovelSource{
     
     var source : String{
         return ""
     }
-    func novelDetail(responseData: Data, completion: (TKNovelDetail?) -> ()) {
+    func contentUrl(with chapterUrl:String) -> String{
+        return ""
+    }
+    func novelDetail(responseData: Data, completion: (TKNovelModel?) -> ()) {
         
     }
     
@@ -25,12 +28,29 @@ class TKNovelSource : TKNovelParseProtocol  {
 }
 
 
-class TKBiqugeSource: TKNovelSource {
+class Biquge : TKNovelSource {
+    
+    static let sharedInstance = Biquge.init()
+    
+    private override init() {
+        
+    }
+    
+    
     override var source: String{
         return "1393206249994657467"
     }
     
-    override func novelDetail(responseData: Data, completion: (TKNovelDetail?) -> ()) {
+    override func contentUrl(with chapterUrl: String?) -> String {
+        
+        var host = "http://www.xs.la"
+        if let chapterUrl = chapterUrl {
+            host += chapterUrl
+        }
+        return host
+    }
+    
+    override func novelDetail(responseData: Data, completion: (TKNovelModel?) -> ()) {
         
         let string = String(data: responseData, encoding: .utf8)
         
@@ -40,32 +60,32 @@ class TKBiqugeSource: TKNovelSource {
         
         let document = OCGumboDocument(htmlString: string)
         
-        let head = document?.query("head")
+//        let head = document?.query("head")
         
-        var model = TKNovelDetail.init()
+        let model = TKNovelModel.init()
         
-        model.title = head?.find("og:novel:book_name")?.first()?.attr("content")
-        model.desc = head?.find("og:description")?.first()?.attr("content")
-        model.img = head?.find("og:image")?.first()?.attr("content")?.pregReplace(pattern: "\\s", with: "")
-        model.category = head?.find("og:novel:category")?.first()?.attr("content")
-        model.author = head?.find("og:novel:author")?.first()?.attr("content")
-        model.url = head?.find("og:novel:read_url")?.first()?.attr("content")
-        model.status = head?.find("og:novel:status")?.first()?.attr("content")
-        model.latestChapterTime = head?.find("og:novel:update_time")?.first()?.attr("content")
-        model.latestChapterName = head?.find("og:novel:latest_chapter_name")?.first()?.attr("content")
-        model.latestChapterUrl = head?.find("og:novel:latest_chapter_url")?.first()?.attr("content")
+        model.title = document?.query("@og:novel:book_name")?.first()?.attr("content")
+        model.desc = document?.query("@og:description")?.first()?.attr("content")
+        model.img = document?.query("@og:image")?.first()?.attr("content")?.pregReplace(pattern: "\\s", with: "")
+        model.category = document?.query("@og:novel:category")?.first()?.attr("content")
+        model.author = document?.query("@og:novel:author")?.first()?.attr("content")
+        model.url = document?.query("@og:novel:read_url")?.first()?.attr("content")
+        model.status = document?.query("@og:novel:status")?.first()?.attr("content")
+        model.latestChapterTime = document?.query("@og:novel:update_time")?.first()?.attr("content")
+        model.latestChapterName = document?.query("@og:novel:latest_chapter_name")?.first()?.attr("content")
+        model.latestChapterUrl = document?.query("@og:novel:latest_chapter_url")?.first()?.attr("content")
         
-        var temp = [TKNovelChapter]()
+        var temp = [TKChapterModel]()
         
         let chapters = document?.query("body")?.find("#list")?.find("a")
         
         
         
         for chapter in (chapters)! {
-            var aModel =  TKNovelChapter.init()
-            aModel.chapterUrl = (chapter as! OCGumboNode).attr("href")
+            let aModel =  TKChapterModel()
+            aModel.chapterUrl = self.contentUrl(with:(chapter as! OCGumboNode).attr("href"))
             aModel.chapterName = (chapter as! OCGumboNode).text()
-            aModel.content = nil
+    
             temp.append(aModel)
             
         }

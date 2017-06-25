@@ -8,55 +8,19 @@
 
 import Foundation
 import Alamofire
-class TKNovelDetail : NSObject{
-    
-    var title : String?
-    var img : String?
-    var desc : String?
-    var url : String?
-    var author : String?
-    var category : String?
-    var status : String?
-    var latestChapterName : String?
-    var latestChapterUrl : String?
-    var latestChapterTime : String?
-    
-    var chapters : [TKNovelChapter]?
-    var info : [String]?
-    var record: (Int,Int)?
-    
-    override init() {
-    }
 
-}
-class TKNovelChapter : NSObject{
-    
-    var chapterName : String?
-    var chapterUrl : String?
-    var content : String?
-    override init() {
-    }}
-
-
-
-protocol TKNovelParseProtocol {
-    
-    var source : String {get}
-    
-    func novelDetail(responseData:Data, completion:(_ obj:TKNovelDetail?) -> ())
-    func chapterDetail(responseData:Data, completion:(_ obj:String?) -> ())
-    
-}
 
 
 class TKNovelService{
     
     
-    static func searchNovel(source: String, keyword:String, page:Int, completion: @escaping([TKNovelDetail]?)->()) -> Void {
-        Alamofire.request("http://zhannei.baidu.com/cse/search", method: .get, parameters: ["q":keyword,"p":page,"s":source], encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
-            
+    static func searchNovel(source: TKNovelSourceKey, keyword: String?, page:Int, completion: @escaping([TKNovelModel]?)->()) -> Void {
+        
+        let aSource = self.sourceInstalce(type: source)
+    
+        Alamofire.request("http://zhannei.baidu.com/cse/search", method: .get, parameters: ["q":keyword ?? "","p":page,"s":aSource.source], encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
             if let data = responseData.data{
-                self.parseSearchData(html: data, completion: { (result) in
+                self.parseSearchData(html: data, source: source, completion: { (result) in
                     completion(result)
                 })
             }
@@ -64,31 +28,35 @@ class TKNovelService{
     }
     
     
-    static func novelDetail(url: String, source:TKNovelSource,completion: @escaping (_ detail : TKNovelDetail?)->()){
+    static func novelDetail(url: String, source:TKNovelSourceKey,completion: @escaping (_ detail : TKNovelModel?)->()){
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
             if let data = responseData.data{
-                    source.novelDetail(responseData: data, completion: { (datail) in
-                        completion(datail)
-                    })
-                }
+                
+                let aSource = self.sourceInstalce(type: source)
+                aSource.novelDetail(responseData: data, completion: { (datail) in
+                    datail?.source = source
+                    completion(datail)
+                })
             }
         }
+    }
     
     
-    static func chapterDetail(url: String, source:TKNovelSource,completion: @escaping (_ detail : String?)->()){
+    static func chapterDetail(url: String, source:TKNovelSourceKey,completion: @escaping (_ detail : String?)->()){
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
             if let data = responseData.data{
+                let source = self.sourceInstalce(type: source)
                 source.chapterDetail(responseData: data, completion: { (content) in
                     completion(content)
                 })
             }
         }
     }
-
     
     
     
-    static func parseSearchData(html: Data, completion:([TKNovelDetail]?) -> ()){
+    
+    static func parseSearchData(html: Data,source: TKNovelSourceKey , completion:([TKNovelModel]?) -> ()){
         
         let string = String(data: html, encoding: .utf8)
         
@@ -98,10 +66,10 @@ class TKNovelService{
         
         
         
-        var list = [TKNovelDetail]()
+        var list = [TKNovelModel]()
         
         let document = OCGumboDocument(htmlString: string)
-
+        
         let result = document?.query("#results")?.find(".result-list")?.first()
         
         guard result != nil else {
@@ -121,13 +89,14 @@ class TKNovelService{
             let desc = item.query("p.result-game-item-desc")?.first()?.text()?.pregReplace(pattern: "\\s", with: "")
             let info = item.query("div.result-game-item-info")?.first()
             
-            let model = TKNovelDetail()
-  
+            let model = TKNovelModel()
+            
             model.img = imgUrl
             model.title = title
             model.url = detailUrl
             model.desc = desc
- 
+            model.source = source
+            
             for infoNode in (info?.childNodes.filter({ (item) -> Bool in
                 return item is OCGumboElement
             })) as! [OCGumboElement]! {
@@ -149,4 +118,12 @@ class TKNovelService{
     }
     
     
+    private static func sourceInstalce(type: TKNovelSourceKey) -> TKNovelSource {
+        switch type {
+        case .Buquge:
+            return Biquge.sharedInstance
+        default:
+            return TKNovelSource()
+        }
+    }
 }

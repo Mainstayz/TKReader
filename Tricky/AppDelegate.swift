@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         self.themeAppearanceConfigure()
-        
+        self.getNovelFormCache()
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let homepage = TKHomepageViewController(nibName: "TKHomepageViewController", bundle: nil);
@@ -34,7 +34,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    
+    func getNovelFormCache(){
+        TKBookshelfService.sharedInstance.booksFromCache { (oldBooks) in
+            if oldBooks != nil{
+                print(oldBooks!)
+                TKBookshelfService.sharedInstance.books = oldBooks!
+                print("读取完毕")
+            }else{
+                print("失败 。。。")
+            }
+            
+        }
+    }
     func themeAppearanceConfigure() -> Void {
         UINavigationBar.appearance().barTintColor = themeBackgroundColor
         UINavigationBar.appearance().tintColor = themeTextColor

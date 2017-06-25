@@ -11,15 +11,21 @@ import UIKit
 
 class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate{
 
-    var books = [TKNovelDetail]()
+    var books : [TKNovelModel]!
     var itemSize : CGSize!
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(addedBook(notification:)), name: Notification.Name(TKBookshelfNotificationDidAddBook), object: nil)
         
         
         let row : CGFloat = 3.0
@@ -31,35 +37,19 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
         self.collectionView.register(UINib(nibName: "TKBookCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "bookCell")
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
-        
-        
-        let  b =  TKNovelDetail()
-        b.url = "11111"
-        let  b1 =  TKNovelDetail()
-        b.url = "1111221"
-        let  b2 =  TKNovelDetail()
-        b.url = "111331211"
-        let  b3 =  TKNovelDetail()
-        b.url = "1114412311"
-        let  b4 =  TKNovelDetail()
-        b.url = "11113111"
-        
-        books.append(b)
-        books.append(b1)
-        books.append(b2)
-        books.append(b3)
-        books.append(b4)
-        
-        
+        self.books = TKBookshelfService.sharedInstance.books
+
         self.collectionView.reloadData()
-        
-        
-        
         let right = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(pushSearchViewController))
         self.navigationItem.rightBarButtonItem = right;
         
     }
     
+    func addedBook(notification:Notification) -> Void {
+        self.books = TKBookshelfService.sharedInstance.books
+        print(self.books.count)
+        self.collectionView.reloadData()
+    }
     
     func pushSearchViewController(){
         let searchViewController = TKSearchViewController()
@@ -75,11 +65,13 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "bookCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "bookCell", for: indexPath) as! TKBookCollectionViewCell
+        cell.configure(model:self.books[indexPath.item])
         return cell
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10

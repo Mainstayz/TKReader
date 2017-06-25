@@ -19,12 +19,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="169" height="265"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6s5-5Z-kDr">
-                        <rect key="frame" x="0.0" y="0.0" width="169" height="225"/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="6s5-5Z-kDr" secondAttribute="height" multiplier="9:12" id="2sE-59-wQr"/>
-                        </constraints>
-                    </imageView>
                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ER9-Z3-wng">
                         <rect key="frame" x="0.0" y="233" width="169" height="2"/>
                     </progressView>
@@ -34,9 +28,15 @@
                         <color key="textColor" red="0.15868747234344482" green="0.21822044253349304" blue="0.30320093035697937" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6s5-5Z-kDr">
+                        <rect key="frame" x="0.0" y="0.0" width="169" height="225"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="6s5-5Z-kDr" secondAttribute="height" multiplier="9:12" id="2sE-59-wQr"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
             </view>
-            <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="ER9-Z3-wng" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="6Bd-Wz-bwK"/>
                 <constraint firstItem="8Ym-yZ-N1a" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="9rt-of-RX6"/>
@@ -49,7 +49,12 @@
                 <constraint firstAttribute="trailing" secondItem="ER9-Z3-wng" secondAttribute="trailing" id="rdz-wY-M2y"/>
             </constraints>
             <size key="customSize" width="169" height="265"/>
-            <point key="canvasLocation" x="-115.5" y="-35.5"/>
+            <connections>
+                <outlet property="imgView" destination="6s5-5Z-kDr" id="IVR-FC-cM2"/>
+                <outlet property="progressView" destination="ER9-Z3-wng" id="Ix5-qa-0hE"/>
+                <outlet property="titleLab" destination="8Ym-yZ-N1a" id="giR-vM-R3I"/>
+            </connections>
+            <point key="canvasLocation" x="-458" y="-36"/>
         </collectionViewCell>
     </objects>
 </document>

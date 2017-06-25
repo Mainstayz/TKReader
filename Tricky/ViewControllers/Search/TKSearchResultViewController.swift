@@ -8,10 +8,11 @@
 
 import UIKit
 import SVPullToRefresh
+import KVNProgress
 
-class TKSearchResultViewController: UITableViewController, UISearchBarDelegate {
+class TKSearchResultViewController: UITableViewController {
     
-    var novels :[TKNovelDetail]!{
+    var novels :[TKNovelModel]!{
         didSet{
             
             guard let list = novels else{return}
@@ -39,24 +40,25 @@ class TKSearchResultViewController: UITableViewController, UISearchBarDelegate {
             self.page += 1
             self.search(keyword: self.keyword!)
         }
-        novels = [TKNovelDetail]()
+        novels = [TKNovelModel]()
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     
     func search(keyword :String) -> Void {
-        
         if page == 0 {
             novels.removeAll()
         }
         
-        TKNovelService.searchNovel(source: TKBiqugeSource().source, keyword: keyword, page: page) { (list) in
+        KVNProgress.show()
+        TKNovelService.searchNovel(source: .Buquge, keyword: keyword, page: page) { (list) in ()
+            KVNProgress.dismiss()
             guard list != nil else {
                 self.tableView.reloadData()
                 self.tableView.infiniteScrollingView.stopAnimating()
@@ -80,32 +82,24 @@ class TKSearchResultViewController: UITableViewController, UISearchBarDelegate {
         cell.configure(self.novels[indexPath.row])
         return cell
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detail = TKDetailViewController()
+        detail.bookDetail = self.novels[indexPath.row]
+        self.presentingViewController?.navigationController?.pushViewController(detail, animated: true)
+    }
     
-
+    
     // MARK: - UISearchBarDelegate
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        page = 0
-    
-        if let text = searchBar.text{
-            keyword = text.trimmingCharacters(in: .whitespaces)
-            self.search(keyword: keyword!)
-        }
-        
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.dismiss(animated: true, completion: nil)
-    }
+
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

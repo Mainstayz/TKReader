@@ -22,7 +22,7 @@ class TKSearchResultCell: TKTableViewCell {
     }
     override func configure(_ model: Any) {
         super.configure(model)
-        let m : TKNovelDetail =  model as! TKNovelDetail
+        let m : TKNovelModel =  model as! TKNovelModel
         titleLab.text = m.title
         imgView.sd_setImage(with: URL(string: m.img!))
         authorLab.text = m.author
