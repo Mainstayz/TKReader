@@ -26,7 +26,6 @@
 		8580385A1EFFC0520009AF6B /* TKBookshelfService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858038591EFFC0520009AF6B /* TKBookshelfService.swift */; };
 		8580385D1EFFE9260009AF6B /* TKScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8580385C1EFFE9260009AF6B /* TKScrollView.swift */; };
 		858038601EFFE9930009AF6B /* TKReadingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8580385E1EFFE9930009AF6B /* TKReadingPageViewController.swift */; };
-		858038611EFFE9930009AF6B /* TKReadingPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8580385F1EFFE9930009AF6B /* TKReadingPageViewController.xib */; };
 		858038631EFFFA3C0009AF6B /* TKReadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858038621EFFFA3C0009AF6B /* TKReadingViewController.swift */; };
 		858038651F002E8C0009AF6B /* TKContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858038641F002E8C0009AF6B /* TKContentView.swift */; };
 		8585835C1EEC6DC60024C9AA /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8585835B1EEC6DC60024C9AA /* Common.swift */; };
@@ -54,6 +53,7 @@
 		85BBF7B21EFDC97300638A8D /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7A31EFDC97300638A8D /* util.c */; };
 		85BBF7B31EFDC97300638A8D /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7A51EFDC97300638A8D /* vector.c */; };
 		85BBF7B51EFDEF3D00638A8D /* TKNovelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7B41EFDEF3D00638A8D /* TKNovelSource.swift */; };
+		85D5E5171F01193C00ACEA98 /* Macro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D5E5161F01193C00ACEA98 /* Macro.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,7 +76,6 @@
 		858038591EFFC0520009AF6B /* TKBookshelfService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKBookshelfService.swift; sourceTree = "<group>"; };
 		8580385C1EFFE9260009AF6B /* TKScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKScrollView.swift; sourceTree = "<group>"; };
 		8580385E1EFFE9930009AF6B /* TKReadingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKReadingPageViewController.swift; sourceTree = "<group>"; };
-		8580385F1EFFE9930009AF6B /* TKReadingPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKReadingPageViewController.xib; sourceTree = "<group>"; };
 		858038621EFFFA3C0009AF6B /* TKReadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKReadingViewController.swift; sourceTree = "<group>"; };
 		858038641F002E8C0009AF6B /* TKContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKContentView.swift; sourceTree = "<group>"; };
 		858583531EEC625F0024C9AA /* Tricky-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tricky-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -127,6 +126,7 @@
 		85BBF7A51EFDC97300638A8D /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vector.c; sourceTree = "<group>"; };
 		85BBF7A61EFDC97300638A8D /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
 		85BBF7B41EFDEF3D00638A8D /* TKNovelSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKNovelSource.swift; sourceTree = "<group>"; };
+		85D5E5161F01193C00ACEA98 /* Macro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macro.swift; sourceTree = "<group>"; };
 		933169DC7937179D2B9D31A7 /* Pods-Tricky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tricky.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tricky/Pods-Tricky.release.xcconfig"; sourceTree = "<group>"; };
 		D1233DE8BA99300355CA0672 /* Pods_Tricky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tricky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -204,7 +204,6 @@
 			children = (
 				8580385C1EFFE9260009AF6B /* TKScrollView.swift */,
 				8580385E1EFFE9930009AF6B /* TKReadingPageViewController.swift */,
-				8580385F1EFFE9930009AF6B /* TKReadingPageViewController.xib */,
 				858038621EFFFA3C0009AF6B /* TKReadingViewController.swift */,
 				858038641F002E8C0009AF6B /* TKContentView.swift */,
 			);
@@ -236,6 +235,7 @@
 				85BBF77E1EFDA03D00638A8D /* Extensions.swift */,
 				857E25D21EFE6A81000EEDCC /* Configure.swift */,
 				858038521EFFA27F0009AF6B /* FileManager.swift */,
+				85D5E5161F01193C00ACEA98 /* Macro.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -420,7 +420,6 @@
 				858038511EFF6A610009AF6B /* TKDetailViewController.xib in Resources */,
 				8597A6391EEC50AF00A5A836 /* LaunchScreen.storyboard in Resources */,
 				85BBF7A91EFDC97300638A8D /* char_ref.rl in Resources */,
-				858038611EFFE9930009AF6B /* TKReadingPageViewController.xib in Resources */,
 				858583631EEC750F0024C9AA /* TKHomepageViewController.xib in Resources */,
 				8597A6361EEC50AF00A5A836 /* Assets.xcassets in Resources */,
 			);
@@ -507,6 +506,7 @@
 				857062AA1EFEC9DB00F0FC47 /* TKSearchResultCell.swift in Sources */,
 				85BBF7B51EFDEF3D00638A8D /* TKNovelSource.swift in Sources */,
 				858038601EFFE9930009AF6B /* TKReadingPageViewController.swift in Sources */,
+				85D5E5171F01193C00ACEA98 /* Macro.swift in Sources */,
 				857062A61EFEA77700F0FC47 /* TKSearchResultViewController.swift in Sources */,
 				85BBF7B31EFDC97300638A8D /* vector.c in Sources */,
 				8597A62F1EEC50AF00A5A836 /* AppDelegate.swift in Sources */,

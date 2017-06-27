@@ -54,8 +54,6 @@ class TKBookshelfService: NSObject {
         
                 completion(vaild)
                 
-                NotificationCenter.default.post(name:.init(TKBookshelfNotificationDidGetBooksFromCache), object: nil, userInfo: nil)
-                
             }else{
                 completion(nil)
             }

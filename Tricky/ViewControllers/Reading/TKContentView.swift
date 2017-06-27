@@ -10,11 +10,11 @@ import UIKit
 
 class TKContentView: UIView {
     
-    var imageView : UIImageView = UIImageView(frame: .zero)
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addSubview(self.imageView)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -24,19 +24,18 @@ class TKContentView: UIView {
     
     var attributedText : NSAttributedString?{
         didSet{
-            
+            self.render()
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.imageView.frame = self.bounds
-        self.rander()
     }
     
     
-    func rander() -> Void {
+    func render() -> Void {
         
+        self.layer.sublayers?.map({$0.removeFromSuperlayer()})
         
         DispatchQueue.init(label: "com.drawImage.tk").async {
             UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0);
@@ -54,43 +53,52 @@ class TKContentView: UIView {
             let img = UIGraphicsGetImageFromCurrentImageContext();
             
             UIGraphicsEndImageContext();
-            
-            DispatchQueue.main.async {
-                self.imageView.image = img
-            }
 
+            let cgImg = img!.cgImage
+            
+            
+            let maxLength : CGFloat = 5000
+            
+            if img!.size.height > maxLength {
+                
+                var totalLength = img!.size.height
+                var height  = maxLength
+                var y : CGFloat = 0
+                var rectArr = [CGRect]()
+                
+                repeat{
+                    let rect = CGRect(x: 0, y: y, width: img!.size.width, height: height)
+
+                    y += height
+                    totalLength -= maxLength
+                    height = totalLength < maxLength ?  totalLength : maxLength
+                    rectArr.append(rect)
+                }while(totalLength > 0.0)
+                
+                for rect in rectArr{
+                    
+                    DispatchQueue.main.async {
+                        let subImg = cgImg!.cropping(to: CGRect(x: 0, y: rect.origin.y * img!.scale, width: rect.width * img!.scale, height: rect.height * img!.scale))
+                        let layer = CALayer()
+                        layer.contentsScale = UIScreen.main.scale
+                        layer.contents = subImg
+                        layer.frame = rect
+                        self.layer.addSublayer(layer)
+                    }
+
+                }
+
+            }else{
+                DispatchQueue.main.async {
+                    let layer = CALayer()
+                    layer.contentsScale = UIScreen.main.scale
+                    layer.contents = cgImg
+                    layer.frame = self.bounds
+                    self.layer.addSublayer(layer)
+                }
+            }
         }
-    
-        
         
     }
-     /*
-     - (void)setText:(NSAttributedString *)attributedText
-     {
-     self.attributedText = attributedText;
-     [self setNeedsDisplay];
-     }
-     
-     - (void)drawRect:(CGRect)rect {
-     
-     // Drawing code
-     CGContextRef context = UIGraphicsGetCurrentContext();
-     // Flip the coordinate system
-     CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-     CGContextTranslateCTM(context, 0, self.bounds.size.height);
-     CGContextScaleCTM(context, 1.0, -1.0);
-     
-     CTFramesetterRef childFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)self.attributedText);
-     UIBezierPath * bezierPath = [UIBezierPath bezierPathWithRect:rect];
-     CTFrameRef frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL);
-     CTFrameDraw(frame, context);
-     CFRelease(frame);
-     CFRelease(childFramesetter);
-     
-     }    */
-
-    
-    
-    
     
 }

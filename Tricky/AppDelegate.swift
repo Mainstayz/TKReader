@@ -40,6 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if oldBooks != nil{
                 print(oldBooks!)
                 TKBookshelfService.sharedInstance.books = oldBooks!
+                
+                NotificationCenter.default.post(name:.init(TKBookshelfNotificationDidGetBooksFromCache), object: nil, userInfo: nil)
                 print("读取完毕")
             }else{
                 print("失败 。。。")

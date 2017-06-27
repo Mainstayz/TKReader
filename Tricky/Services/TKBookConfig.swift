@@ -57,6 +57,6 @@ class TKBookConfig {
         
         titleColor = UIColor.flatBlack.withAlphaComponent(0.7)
         pageColor = UIColor.flatBlack.withAlphaComponent(0.7)
-        fontSize = 14.0
+        fontSize = 16.0
     }
 }

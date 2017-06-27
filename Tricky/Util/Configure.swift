@@ -8,8 +8,11 @@
 
 import UIKit
 
-let themeBackgroundColor = UIColor.flatBlue
 
+
+
+
+let themeBackgroundColor = UIColor.flatBlue
 let themeTextColor = UIColor(contrastingBlackOrWhiteColorOn: themeBackgroundColor, isFlat: true)
 
 let themeTitleAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 18),NSForegroundColorAttributeName:themeTextColor]

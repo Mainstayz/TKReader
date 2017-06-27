@@ -11,7 +11,7 @@ import Foundation
 extension FileManager{
     
     func novelRootPath() -> String {
-            return NSHomeDirectory() + "/Documents/novel/"
+        return NSHomeDirectory() + "/Documents/novel/"
     }
     
     func creatDirectory(path: String) -> Bool{
@@ -42,31 +42,31 @@ extension FileManager{
     
     func saveNovel(title:String,chapterUrl: String,content:String) -> Void{
         // 异步
-        
-        if chapterUrl.count == 0 || content.count == 0 {
-            print("should not be empty....")
-            return
-        }
-        
-        let rootPath = self.novelRootPath()
-        let novelPath = rootPath + "\(title)/"
-        let suc =  self.creatDirectory(path: novelPath)
-        
-        guard suc == true else {
-            return
-        }
-        
-        let chapterPath = novelPath + "\(chapterUrl.md5())"
-        
-        
         let queue = DispatchQueue(label: "com.saveNove.tk")
         queue.async {
+            
+            if chapterUrl.count == 0 || content.count == 0 {
+                print("should not be empty....")
+                return
+            }
+            
+            let rootPath = self.novelRootPath()
+            let novelPath = rootPath + "\(title)/"
+            let suc =  self.creatDirectory(path: novelPath)
+            
+            guard suc == true else {
+                return
+            }
+            
+            let chapterPath = novelPath + "\(chapterUrl.md5())"
+            
+            
             do{
                 
                 try content.write(toFile: chapterPath, atomically: true, encoding: .utf8)
-
+                
                 print("保存成功----\(chapterPath)")
-            
+                
             }catch let error as NSError {
                 print("Error save directory: \(error.localizedDescription)")
             }
@@ -82,7 +82,7 @@ extension FileManager{
         
         let rootPath = self.novelRootPath()
         let chapterPath = rootPath+"\(title!)/"+"\(chapterUrl!.md5())"
-
+        
         
         let isExist = self.fileExists(atPath: chapterPath)
         
