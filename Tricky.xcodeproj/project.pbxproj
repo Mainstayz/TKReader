@@ -31,6 +31,7 @@
 		8585835C1EEC6DC60024C9AA /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8585835B1EEC6DC60024C9AA /* Common.swift */; };
 		858583621EEC750F0024C9AA /* TKHomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858583601EEC750F0024C9AA /* TKHomepageViewController.swift */; };
 		858583631EEC750F0024C9AA /* TKHomepageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 858583611EEC750F0024C9AA /* TKHomepageViewController.xib */; };
+		858DE4281F17EE3700C6E91F /* TKNovelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858DE4271F17EE3700C6E91F /* TKNovelDataSource.swift */; };
 		8597A62F1EEC50AF00A5A836 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597A62E1EEC50AF00A5A836 /* AppDelegate.swift */; };
 		8597A6311EEC50AF00A5A836 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597A6301EEC50AF00A5A836 /* ViewController.swift */; };
 		8597A6361EEC50AF00A5A836 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8597A6351EEC50AF00A5A836 /* Assets.xcassets */; };
@@ -54,6 +55,8 @@
 		85BBF7B31EFDC97300638A8D /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7A51EFDC97300638A8D /* vector.c */; };
 		85BBF7B51EFDEF3D00638A8D /* TKNovelSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BBF7B41EFDEF3D00638A8D /* TKNovelSource.swift */; };
 		85D5E5171F01193C00ACEA98 /* Macro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D5E5161F01193C00ACEA98 /* Macro.swift */; };
+		85F319DF1F19EA0A0003C35E /* TKChapterInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F319DE1F19EA0A0003C35E /* TKChapterInfoModel.swift */; };
+		85F319E11F19F7860003C35E /* TKPageInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F319E01F19F7860003C35E /* TKPageInfoModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +85,7 @@
 		8585835B1EEC6DC60024C9AA /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		858583601EEC750F0024C9AA /* TKHomepageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKHomepageViewController.swift; sourceTree = "<group>"; };
 		858583611EEC750F0024C9AA /* TKHomepageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKHomepageViewController.xib; sourceTree = "<group>"; };
+		858DE4271F17EE3700C6E91F /* TKNovelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKNovelDataSource.swift; sourceTree = "<group>"; };
 		8597A62B1EEC50AF00A5A836 /* Tricky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tricky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8597A62E1EEC50AF00A5A836 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8597A6301EEC50AF00A5A836 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 		85BBF7A61EFDC97300638A8D /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
 		85BBF7B41EFDEF3D00638A8D /* TKNovelSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKNovelSource.swift; sourceTree = "<group>"; };
 		85D5E5161F01193C00ACEA98 /* Macro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Macro.swift; sourceTree = "<group>"; };
+		85F319DE1F19EA0A0003C35E /* TKChapterInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKChapterInfoModel.swift; sourceTree = "<group>"; };
+		85F319E01F19F7860003C35E /* TKPageInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TKPageInfoModel.swift; sourceTree = "<group>"; };
 		933169DC7937179D2B9D31A7 /* Pods-Tricky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tricky.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tricky/Pods-Tricky.release.xcconfig"; sourceTree = "<group>"; };
 		D1233DE8BA99300355CA0672 /* Pods_Tricky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tricky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -195,6 +201,8 @@
 			children = (
 				858038551EFFB2A50009AF6B /* TKChapterModel.swift */,
 				858038571EFFB3070009AF6B /* TKNovelModel.swift */,
+				85F319DE1F19EA0A0003C35E /* TKChapterInfoModel.swift */,
+				85F319E01F19F7860003C35E /* TKPageInfoModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -214,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				85621D1C1EF831B300EEC8DD /* TKBookConfig.swift */,
+				858DE4271F17EE3700C6E91F /* TKNovelDataSource.swift */,
 				85BBF77C1EFD7E2100638A8D /* TKNovelService.swift */,
 				85BBF7B41EFDEF3D00638A8D /* TKNovelSource.swift */,
 				858038591EFFC0520009AF6B /* TKBookshelfService.swift */,
@@ -481,6 +490,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8580385A1EFFC0520009AF6B /* TKBookshelfService.swift in Sources */,
+				85F319E11F19F7860003C35E /* TKPageInfoModel.swift in Sources */,
 				85BBF7871EFDC8D200638A8D /* OCGumbo.m in Sources */,
 				855908C71EF7C9FD003C020B /* TKBookViewController.swift in Sources */,
 				858038651F002E8C0009AF6B /* TKContentView.swift in Sources */,
@@ -488,6 +498,7 @@
 				85BBF77D1EFD7E2100638A8D /* TKNovelService.swift in Sources */,
 				85BBF7AB1EFDC97300638A8D /* parser.c in Sources */,
 				85BBF7B01EFDC97300638A8D /* tokenizer.c in Sources */,
+				85F319DF1F19EA0A0003C35E /* TKChapterInfoModel.swift in Sources */,
 				85BBF7861EFDC8D200638A8D /* OCGumbo+Query.m in Sources */,
 				85BBF77F1EFDA03D00638A8D /* Extensions.swift in Sources */,
 				858038501EFF6A610009AF6B /* TKDetailViewController.swift in Sources */,
@@ -496,6 +507,7 @@
 				8585835C1EEC6DC60024C9AA /* Common.swift in Sources */,
 				858038531EFFA27F0009AF6B /* FileManager.swift in Sources */,
 				85BBF7B11EFDC97300638A8D /* utf8.c in Sources */,
+				858DE4281F17EE3700C6E91F /* TKNovelDataSource.swift in Sources */,
 				85BBF7AA1EFDC97300638A8D /* error.c in Sources */,
 				858038581EFFB3070009AF6B /* TKNovelModel.swift in Sources */,
 				85BBF7A81EFDC97300638A8D /* char_ref.c in Sources */,

@@ -23,10 +23,12 @@ class TKBookConfig {
     var titleColor : UIColor?
     var pageColor : UIColor?
     
+    let displayRect = CGRect(x: 10, y: 30, width: TKScreenWidth - 30, height: TKScreenHeight - 72)
+    
     var attDic: Dictionary<String,Any> {
         
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = firstLineHeadIndent! * fontSize!
+//        paragraphStyle.firstLineHeadIndent = firstLineHeadIndent! * fontSize!
         paragraphStyle.lineSpacing = lineSpacing!
         paragraphStyle.paragraphSpacing = paragraphSpacing!
         paragraphStyle.lineBreakMode = .byCharWrapping

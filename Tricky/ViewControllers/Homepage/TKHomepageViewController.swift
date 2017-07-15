@@ -79,7 +79,8 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let reading = TKReadingViewController()
         let novel =  self.books[indexPath.item]
-        reading.novelModel = novel
+        let dataSource = TKNovelDataSource(novel: novel)
+        reading.novelDataSource = dataSource
         self.present(reading, animated: true, completion: nil)
     }
     

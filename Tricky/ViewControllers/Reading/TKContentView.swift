@@ -24,13 +24,29 @@ class TKContentView: UIView {
     
     var attributedText : NSAttributedString?{
         didSet{
-            self.render()
+//            self.render()
+            setNeedsDisplay()
         }
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        // Drawing code
+        let context = UIGraphicsGetCurrentContext()
+        // Flip the coordinate system
+
+        context?.textMatrix = .identity
+        context?.translateBy(x: 0, y: rect.height)
+        context?.scaleBy(x: 1.0, y: -1.0)
+        
+        let childFramesetter = CTFramesetterCreateWithAttributedString(attributedText!)
+        let bezierPath = UIBezierPath(rect: rect)
+        let frame = CTFramesetterCreateFrame(childFramesetter, CFRangeMake(0, 0), bezierPath.cgPath, nil)
+        CTFrameDraw(frame, context!);
     }
+    
     
     
     func render() -> Void {
