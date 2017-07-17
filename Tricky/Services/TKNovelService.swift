@@ -13,6 +13,8 @@ import Alamofire
 
 class TKNovelService{
     
+    static var requestQueue = Dictionary<String,Bool>()
+    
     
     static func searchNovel(source: TKNovelSourceKey, keyword: String?, page:Int, completion: @escaping([TKNovelModel]?)->()) -> Void {
         
@@ -52,7 +54,16 @@ class TKNovelService{
             return
         }
         
+        
+        if requestQueue[url!] != nil{
+            return
+        }
+        
+        requestQueue[url!] = true
+        
         Alamofire.request(url!, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseData { (responseData) in
+            requestQueue[url!] = nil
+            
             if let data = responseData.data{
                 let source = self.sourceInstalce(type: source!)
                 source.chapterDetail(responseData: data, completion: { (content) in

@@ -8,7 +8,7 @@
 
 import UIKit
 import KVNProgress
-class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource {
+class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource{
     
     enum TKReadingDirection: Int {
         case none = -1
@@ -46,12 +46,13 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     }
     var direction : TKReadingDirection = .none
     
-    var currentPage : (Int,Int) = (0,0)
+    var currentPage : (Int,Int)!
     
+    var needCacheChapters = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = TKBookConfig.sharedInstance.backgroundColor
         pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey:0])
         pageViewController.dataSource = self
         pageViewController.delegate = self;
@@ -62,99 +63,147 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         self.view.addSubview(pageViewController.view)
         pageViewController.didMove(toParentViewController: self)
         
-        self.refresh()
+
+       let tap = UITapGestureRecognizer(target: self, action: #selector(dismissViewController))
         
+        self.view.addGestureRecognizer(tap)
+    
+        KVNProgress.show()
+        novelDataSource.cacheChaptersNearby(index: novelDataSource.currentPage()!.0) { [unowned self] in
+            self.refresh()
+            KVNProgress.dismiss()
+        }
     }
     
     
     
+   
+    
+    
+    func dismissViewController(){
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
     func refresh() -> Void {
         
-        let viewController =  self.viewController(pageInfo: self.novelDataSource.currentPage())
-        currentPage = (self.novelDataSource.currentPage()?.page)!
-        if viewController != nil {
-            pageViewController.setViewControllers([viewController!], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { (finished) in
-                print("刷新完毕：\(finished)")
+        if let page = novelDataSource.currentPage() {
+            currentPage = page
+            if let viewController =  self.viewController(page: page){
+                pageViewController.setViewControllers([viewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { (finished) in
+                    print("刷新完毕：\(finished)")
+                }
             }
+ 
         }
         
-        
+    }
+    
+    func requestChapter(index: Int){
+        KVNProgress.show()
+        novelDataSource.parse(chapter: index, completion: {[unowned self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+                self.refresh()
+                KVNProgress.dismiss()
+            })
+        })
+
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         
         let vc = pendingViewControllers.first as! TKReadingPageViewController
-        
         let nextIndex = vc.page!
         
         if nextIndex.0 == currentPage.0 {
-            
             if nextIndex.1 > currentPage.1 {
                 direction = .next
             }else {
                 direction = .pre
             }
-            
-            
+
         }else if nextIndex.0 > currentPage.0 {
             direction = .next
         }else if nextIndex.0 < currentPage.0 {
             direction = .pre
-        }else{
-            
         }
+        
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        
-        
-        let previousIndex = (previousViewControllers.first as! TKReadingPageViewController).page
 
-        if completed {
-            //
-            
-            
+        if completed && finished{
             if direction == .next {
                 if let next = novelDataSource.nextPage(){
-                    currentPage = next.page
-                    novelDataSource.page += 1
+                    currentPage = next
+                    novelDataSource.page = next
+                    debugPrint("现在 \(next)")
+
                 }
             }else if direction == .pre{
                 if let pre = novelDataSource.prePage(){
-                    currentPage = pre.page
-                    novelDataSource.page -= 1
+                    currentPage = pre
+                    novelDataSource.page = pre
+                    debugPrint("现在 \(pre)")
                 }
             }
 
         }else{
             
             // 翻页没成功
+            debugPrint("翻页不成功")
             
         }
         
     }
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-         debugPrint(" viewControllerBefore")
-        return self.viewController(pageInfo: self.novelDataSource.prePage())
+
+        let page = self.novelDataSource.prePage()
+        let viewController = self.viewController(page: page)
+        if viewController == nil {
+            if let preChapter = novelDataSource.preChapter(){
+                requestChapter(index: preChapter)
+            }
+        }
+        return viewController
     }
     
     
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        debugPrint(" viewControllerAfter")
-        return self.viewController(pageInfo: self.novelDataSource.nextPage())
+  
+        let page = self.novelDataSource.nextPage()
+        let viewController = self.viewController(page: page)
+        if viewController == nil {
+            if let nextChapter = novelDataSource.nextChapter(){
+                requestChapter(index: nextChapter)
+            }
+        }
+        return viewController
+        
     }
     
-    func viewController(pageInfo:TKPageInfoModel?) -> UIViewController? {
-        if pageInfo == nil {
+    
+    
+    func viewController(page:(Int,Int)?) -> UIViewController? {
+        
+        if page == nil {
+            print("空了")
             return nil
         }
+        
         let pegeController = TKReadingPageViewController()
-        pegeController.syncUpdateContent(content: pageInfo!.content)
-        pegeController.chapterName = pageInfo!.title
-        pegeController.page = pageInfo!.page
+        pegeController.page = page
+        pegeController.chapterName = novelDataSource.novelModel.chapters[page!.0].chapterName
+        if let info =  novelDataSource.pageInfo(page: page){
+            pegeController.syncUpdateContent(content: info.content)
+            
+        }
         return pegeController
+        
     }
+    
+    
     
     override var prefersStatusBarHidden: Bool{
         return true
