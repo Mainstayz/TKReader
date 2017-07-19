@@ -17,7 +17,7 @@ protocol TKNovelDataSourceDelegate {
 
 
 class TKNovelDataSource: NSObject {
-
+    
     var novelModel : TKNovelModel!
     var cacheData : Dictionary<Int,TKChapterInfoModel> = Dictionary<Int,TKChapterInfoModel>()
     var pages = Dictionary<Int,[TKPageInfoModel]>()
@@ -28,6 +28,25 @@ class TKNovelDataSource: NSObject {
     init(novel: TKNovelModel) {
         super.init()
         novelModel = novel
+        
+        if novelModel.indexOfChapter != 0 || novelModel.location != 0 {
+            _ =  cacheChapterData(at: novelModel.indexOfChapter) {[unowned self] (suc, info) in
+                guard info != nil else {
+                    return
+                }
+                
+                var aPage = 0
+                for range in info!.ranges{
+                    
+                    if self.novelModel.location >= range.0 &&  self.novelModel.location < (range.0 + range.1){
+                        self.page = (self.novelModel.indexOfChapter,aPage)
+                    }
+                    aPage += 1
+                }
+                
+            }
+        }
+        
     }
     
     
@@ -60,11 +79,11 @@ class TKNovelDataSource: NSObject {
             completion()
         }
         
-
+        
     }
     
     func currentPage() -> (Int,Int)?{
-       return page
+        return page
     }
     
     func nextPage() -> (Int,Int)?{
@@ -82,7 +101,7 @@ class TKNovelDataSource: NSObject {
                 }
             }else{
                 return  (page.0, page.1 + 1)
-
+                
             }
         }
         return nil
@@ -94,9 +113,9 @@ class TKNovelDataSource: NSObject {
         if page.0 <= 0 && page.1 <= 0{
             return nil
         }else if page.0 > 0 && page.1 <= 0{
-             if let pageModel = pages[page.0 - 1] {
+            if let pageModel = pages[page.0 - 1] {
                 return (page.0 - 1, pageModel.count - 1)
-             }else{
+            }else{
                 return nil
             }
         }else{
@@ -131,7 +150,7 @@ class TKNovelDataSource: NSObject {
         if let pageModel = pages[page!.0] {
             return pageModel[page!.1]
         }else{
-         return nil
+            return nil
         }
     }
     
@@ -158,12 +177,12 @@ class TKNovelDataSource: NSObject {
             })
         }
         
-        group.notify(queue: DispatchQueue.main) { 
+        group.notify(queue: DispatchQueue.main) {
             completion()
         }
-
+        
     }
-
+    
     func cacheChapterData(at index : Int, completionHandle:@escaping(Bool,TKChapterInfoModel?)->()) -> TKChapterInfoModel?{
         debugPrint("先从内存拿章节\(index)")
         let chapterInfo = self.cacheData[index]
@@ -201,28 +220,28 @@ class TKNovelDataSource: NSObject {
                 
                 
                 
-//                
-//                self.downData(index: index, complete: {[weak self] (suc,newContent) in
-//                    
-//                    if let strongSelf = self {
-//                        
-//                        if suc == true && newContent != nil{
-//                            debugPrint("下载成功，缓存数据，返回")
-//                            let chapterInfo = TKChapterInfoModel()
-//                            chapterInfo.title = strongSelf.novelModel.chapters[index].chapterName
-//                            chapterInfo.content = newContent!
-//                            chapterInfo.ranges = newContent!.pagination(attributes: TKBookConfig.sharedInstance.attDic, size: TKBookConfig.sharedInstance.displayRect.size)
-//                            strongSelf.cacheData.updateValue(chapterInfo, forKey: index)
-//                            completionHandle(true,chapterInfo)
-//                            FileManager.default.saveNovel(title: strongSelf.novelModel.title!, chapterUrl:chapterUrl, content: newContent!)
-//                        }else{
-//                            debugPrint("网络下载失败。。。")
-//                            completionHandle(false,nil)
-//                            
-//                        }
-//                    }
-//                    
-//                })
+                //
+                //                self.downData(index: index, complete: {[weak self] (suc,newContent) in
+                //
+                //                    if let strongSelf = self {
+                //
+                //                        if suc == true && newContent != nil{
+                //                            debugPrint("下载成功，缓存数据，返回")
+                //                            let chapterInfo = TKChapterInfoModel()
+                //                            chapterInfo.title = strongSelf.novelModel.chapters[index].chapterName
+                //                            chapterInfo.content = newContent!
+                //                            chapterInfo.ranges = newContent!.pagination(attributes: TKBookConfig.sharedInstance.attDic, size: TKBookConfig.sharedInstance.displayRect.size)
+                //                            strongSelf.cacheData.updateValue(chapterInfo, forKey: index)
+                //                            completionHandle(true,chapterInfo)
+                //                            FileManager.default.saveNovel(title: strongSelf.novelModel.title!, chapterUrl:chapterUrl, content: newContent!)
+                //                        }else{
+                //                            debugPrint("网络下载失败。。。")
+                //                            completionHandle(false,nil)
+                //
+                //                        }
+                //                    }
+                //
+                //                })
                 return nil
             }else{
                 // 硬盘读取
@@ -234,7 +253,7 @@ class TKNovelDataSource: NSObject {
                 chapterInfo.content = aContent!
                 chapterInfo.ranges = aContent!.pagination(attributes: TKBookConfig.sharedInstance.attDic, size: TKBookConfig.sharedInstance.displayRect.size)
                 self.cacheData.updateValue(chapterInfo, forKey: index)
-        
+                
                 completionHandle(true,chapterInfo)
                 return chapterInfo
             }
@@ -245,7 +264,7 @@ class TKNovelDataSource: NSObject {
             completionHandle(true,chapterInfo)
             return chapterInfo
         }
-
+        
         
     }
     

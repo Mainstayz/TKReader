@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KYDrawerController
 
 
 class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate{
@@ -27,6 +28,8 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
         
         NotificationCenter.default.addObserver(self, selector: #selector(refresh(notification:)), name: Notification.Name(TKBookshelfNotificationDidAddBook), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refresh(notification:)), name: Notification.Name(TKBookshelfNotificationDidGetBooksFromCache), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(cacheBooks(notification:)), name: Notification.Name(TKBookshelfNotificationDidUpdataBookRecard), object: nil)
+        
         
         
         
@@ -49,12 +52,17 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
     
     func refresh(notification:Notification) -> Void {
         DispatchQueue.main.async {
-            
-            
             self.books = TKBookshelfService.sharedInstance.books
-            print(self.books.count)
             self.collectionView.reloadData()
         }
+    }
+    
+    func cacheBooks(notification:Notification) -> Void {
+        
+        TKBookshelfService.sharedInstance.cacheBooks { (suc) in
+            debugPrint("保存: \(suc)")
+        }
+        
     }
     
     func pushSearchViewController(){
@@ -62,13 +70,10 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
         let nv = TKNavigationController(rootViewController: searchViewController)
         self.present(nv, animated: true, completion: nil)
     }
-    
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.books.count
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "bookCell", for: indexPath) as! TKBookCollectionViewCell
@@ -77,11 +82,23 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let reading = TKReadingViewController()
+        
         let novel =  self.books[indexPath.item]
+        
+        let left = TKCatalogViewController(novel: novel)
+        
         let dataSource = TKNovelDataSource(novel: novel)
+        
+        let reading = TKReadingViewController()
         reading.novelDataSource = dataSource
-        self.present(reading, animated: true, completion: nil)
+        left.delegate = reading as! TKCatalogViewControllerDelegate
+        
+        let drawController = KYDrawerController(drawerDirection: .left, drawerWidth: TKScreenWidth - 44)
+        
+        drawController.mainViewController = reading
+        drawController.drawerViewController = left
+        
+        self.present(drawController, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

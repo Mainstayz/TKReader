@@ -8,14 +8,16 @@
 
 import UIKit
 import KVNProgress
-class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource{
+import KYDrawerController
+
+class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource,TKCatalogViewControllerDelegate{
     
     enum TKReadingDirection: Int {
         case none = -1
         case pre
         case next
     }
-   
+    
     lazy var hudConfigure: KVNProgressConfiguration = {
         let configuration = KVNProgressConfiguration()
         configuration.statusColor = UIColor.white
@@ -40,7 +42,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     var novelDataSource : TKNovelDataSource!
     
     var pageViewController : UIPageViewController!
-
+    
     func initialize(){
         KVNProgress.setConfiguration(self.hudConfigure)
     }
@@ -49,6 +51,28 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     var currentPage : (Int,Int)!
     
     var needCacheChapters = [Int]()
+    
+    var statusBarHidden = true
+    
+    
+    lazy var topBar: TKSettingTopBar = {
+        let topBar = UINib(nibName: "TKSettingTopBar", bundle: nil).instantiate(withOwner: nil, options: nil).first as! TKSettingTopBar
+        topBar.frame = CGRect(x: 0, y: -64, width: TKScreenWidth, height: 64)
+        topBar.cancelButton.addTarget(self, action: #selector(dismissViewController), for: .touchUpInside)
+        
+        return topBar
+    }()
+    
+    lazy var bottomBar: TKSettingBottomBar = {
+        let bottomBar = UINib(nibName: "TKSettingBottomBar", bundle: nil).instantiate(withOwner: nil, options: nil).first as! TKSettingBottomBar
+        bottomBar.catalogButton.addTarget(self, action: #selector(displayLeftViewController), for: .touchUpInside)
+        bottomBar.frame = CGRect(x: 0, y: TKScreenHeight, width: TKScreenWidth, height: 49)
+        
+        return bottomBar
+    }()
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,11 +87,11 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         self.view.addSubview(pageViewController.view)
         pageViewController.didMove(toParentViewController: self)
         
-
-       let tap = UITapGestureRecognizer(target: self, action: #selector(dismissViewController))
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(displaySettingBar))
         
         self.view.addGestureRecognizer(tap)
-    
+        
         KVNProgress.show()
         novelDataSource.cacheChaptersNearby(index: novelDataSource.currentPage()!.0) { [unowned self] in
             self.refresh()
@@ -77,11 +101,57 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     
-   
+    
+    func showBar(){
+        if self.topBar.superview == nil && self.bottomBar.superview == nil {
+            statusBarHidden = false
+            self.view.addSubview(self.topBar)
+            self.view.addSubview(self.bottomBar)
+            UIView.animate(withDuration: UIApplication.shared.statusBarOrientationAnimationDuration, animations: {
+                self.setNeedsStatusBarAppearanceUpdate()
+                self.topBar.frame = CGRect(x: 0, y: 0, width: TKScreenWidth, height: 64)
+                self.bottomBar.frame = CGRect(x: 0, y: TKScreenHeight - 49, width: TKScreenWidth, height: 49)
+            })
+        }
+    }
+    
+    func hiddenBar(){
+        if self.topBar.superview != nil && self.bottomBar.superview != nil {
+            statusBarHidden = true
+            UIView.animate(withDuration: UIApplication.shared.statusBarOrientationAnimationDuration, animations: {
+                self.setNeedsStatusBarAppearanceUpdate()
+                self.topBar.frame = CGRect(x: 0, y: -64, width: TKScreenWidth, height: 64)
+                self.bottomBar.frame = CGRect(x: 0, y: TKScreenHeight, width: TKScreenWidth, height: 49)
+            }, completion: { (suc) in
+                self.topBar.removeFromSuperview()
+                self.bottomBar.removeFromSuperview()
+            })
+        }
+    }
+    
+    
+    
+    func displaySettingBar(){
+        if self.topBar.superview == nil && self.bottomBar.superview == nil {
+            showBar()
+        }else{
+            hiddenBar()
+        }
+    }
     
     
     func dismissViewController(){
+        NotificationCenter.default.post(name: NSNotification.Name(TKBookshelfNotificationDidUpdataBookRecard), object: nil)
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func displayLeftViewController(){
+        
+        if let drawerController = parent as? KYDrawerController {
+            drawerController.setDrawerState(.opened, animated: true)
+        }
+
+        
     }
     
     
@@ -94,7 +164,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
                     print("刷新完毕：\(finished)")
                 }
             }
- 
+            
         }
         
     }
@@ -107,11 +177,11 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
                 KVNProgress.dismiss()
             })
         })
-
+        
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        
+        hiddenBar()
         let vc = pendingViewControllers.first as! TKReadingPageViewController
         let nextIndex = vc.page!
         
@@ -121,7 +191,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             }else {
                 direction = .pre
             }
-
+            
         }else if nextIndex.0 > currentPage.0 {
             direction = .next
         }else if nextIndex.0 < currentPage.0 {
@@ -131,23 +201,52 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-
+        
         if completed && finished{
+            
             if direction == .next {
                 if let next = novelDataSource.nextPage(){
                     currentPage = next
                     novelDataSource.page = next
                     debugPrint("现在 \(next)")
-
+                    
+                    if let nextChapter = novelDataSource.nextChapter() {
+                        if novelDataSource.cacheData[nextChapter] == nil {
+                            novelDataSource.parse(chapter: nextChapter, completion: {
+                                debugPrint("缓存下一章： 、\(nextChapter)")
+                            })
+                        }
+                    }
+                    
                 }
             }else if direction == .pre{
                 if let pre = novelDataSource.prePage(){
                     currentPage = pre
                     novelDataSource.page = pre
                     debugPrint("现在 \(pre)")
+                    
+                    
+                    
+                    if let preChapter = novelDataSource.preChapter() {
+                        if novelDataSource.cacheData[preChapter] == nil {
+                            novelDataSource.parse(chapter: preChapter, completion: {
+                                debugPrint("缓存上一章： 、\(preChapter)")
+                            })
+                        }
+                    }
+                    
                 }
             }
-
+            
+            //保存当前页码
+            novelDataSource.novelModel.indexOfChapter = currentPage.0
+            let range = novelDataSource.cacheData[currentPage.0]!.ranges[currentPage.1]
+            novelDataSource.novelModel.location = range.0
+            
+            
+            
+            
+            
         }else{
             
             // 翻页没成功
@@ -157,7 +256,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         
     }
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-
+        
         let page = self.novelDataSource.prePage()
         let viewController = self.viewController(page: page)
         if viewController == nil {
@@ -171,7 +270,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-  
+        
         let page = self.novelDataSource.nextPage()
         let viewController = self.viewController(page: page)
         if viewController == nil {
@@ -205,12 +304,59 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     
+    // MARK: - TKCatalogViewControllerDelegate
+    
+    
+    func catalogViewController(vc: TKCatalogViewController, didSelectRowAt indexPath: Int, chapter: TKChapterModel) {
+        
+        novelDataSource.novelModel.indexOfChapter = indexPath
+        novelDataSource.novelModel.location = 0
+        
+        currentPage = (indexPath,0)
+        novelDataSource.page = (indexPath,0)
+        KVNProgress.show()
+        novelDataSource.cacheChaptersNearby(index: novelDataSource.currentPage()!.0) { [unowned self] in
+            self.refresh()
+            KVNProgress.dismiss()
+            
+            if let drawerController = self.parent as? KYDrawerController {
+                drawerController.setDrawerState(.closed, animated: true)
+                self.hiddenBar()
+            }
+            
+        }
+        
+    }
+    
+    
+    
     override var prefersStatusBarHidden: Bool{
-        return true
+        return statusBarHidden
     }
     
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation{
         return .slide
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        return .lightContent
+    }
+    
 }
+
+extension KYDrawerController{
+    open override var prefersStatusBarHidden: Bool{
+        return self.mainViewController.prefersStatusBarHidden
+    }
+    
+    open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation{
+        return self.mainViewController.preferredStatusBarUpdateAnimation
+    }
+    
+    open override var preferredStatusBarStyle: UIStatusBarStyle{
+        return self.mainViewController.preferredStatusBarStyle
+    }
+    
+}
+
+

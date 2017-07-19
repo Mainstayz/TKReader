@@ -15,6 +15,7 @@ target 'Tricky' do
   pod 'SVPullToRefresh'
   pod 'KVNProgress'
   pod 'CWStatusBarNotification'
+  pod 'KYDrawerController'
   # Pods for Tricky
 
 end

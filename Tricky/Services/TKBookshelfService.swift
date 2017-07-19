@@ -9,6 +9,7 @@
 import UIKit
 
 let TKBookshelfNotificationDidAddBook : String = "TKBookshelfNotificationDidAddBook"
+let TKBookshelfNotificationDidUpdataBookRecard : String = "TKBookshelfNotificationDidUpdataBookRecard"
 let TKBookshelfNotificationDidGetBooksFromCache : String = "TKBookshelfNotificationDidGetBooksFromCache"
 
 class TKBookshelfService: NSObject {
