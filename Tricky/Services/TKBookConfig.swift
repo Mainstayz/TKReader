@@ -11,6 +11,26 @@ import ChameleonFramework
 
 
 class TKBookConfig {
+    
+    lazy var whitespace: String = {
+        
+        
+        var string = ""
+        var length : CGFloat = 0.0
+        repeat{
+            string += " "
+            let space = NSAttributedString(string: string)
+            length =  CGFloat(CTLineGetTrailingWhitespaceWidth(CTLineCreateWithAttributedString(space)))
+        }while(length < (TKBookConfig.sharedInstance.fontSize!))
+        
+        return string
+        
+        
+        
+    }()
+    
+    
+    
     static let sharedInstance = TKBookConfig.init()
     
     var lineSpacing : CGFloat?
@@ -28,7 +48,7 @@ class TKBookConfig {
     var attDic: Dictionary<String,Any> {
         
         let paragraphStyle = NSMutableParagraphStyle()
-//        paragraphStyle.firstLineHeadIndent = firstLineHeadIndent! * fontSize!
+        //        paragraphStyle.firstLineHeadIndent = firstLineHeadIndent! * fontSize!
         paragraphStyle.lineSpacing = lineSpacing!
         paragraphStyle.paragraphSpacing = paragraphSpacing!
         paragraphStyle.lineBreakMode = .byCharWrapping

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import CoreText
 
 class TKNovelSource{
     
@@ -101,16 +101,39 @@ class Biquge : TKNovelSource {
         let string = String(data: responseData, encoding: .utf8)
         
         guard (string != nil) else {
+            completion(nil)
             return
         }
         
         let document = OCGumboDocument(htmlString: string)
         
         let content = document?.query("#content")?.first()?.text()?.trimmingCharacters(in: .whitespacesAndNewlines).pregReplace(pattern: "\\s+", with: "\n")
-    
-        completion(content)
+        
+        
+        
+        if (content != nil){
+            let paragraph = content?.components(separatedBy: "\n")
+            
+            var result : String = String()
+            
+            
+            for tempString in paragraph! {
+                result += "        "
+                result += tempString
+                result += "\n"
+            }
+            
+            completion(result)
+
+        }else{
+            completion(nil)
+            return
+        }
+        
         
     }
-    
-    
+
 }
+
+
+
