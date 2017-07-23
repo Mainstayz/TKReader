@@ -118,7 +118,7 @@ class Biquge : TKNovelSource {
             
             
             for tempString in paragraph! {
-                result += "        "
+                result += "　　"
                 result += tempString
                 result += "\n"
             }

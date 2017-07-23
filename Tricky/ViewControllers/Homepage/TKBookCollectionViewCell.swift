@@ -17,7 +17,10 @@ class TKBookCollectionViewCell: UICollectionViewCell {
     func configure(model : TKNovelModel){
         
         self.imgView.sd_setImage(with: URL(string: model.img!))
-        self.progressView.progress = Float(model.indexOfChapter / model.chapters.count)
+        let readingRerord = TKReadingRecordManager.sharedInstance.readingRecord(key: model.title!)
+        let progress = Float(readingRerord.0) / Float(model.chapters.count)
+        
+        self.progressView.progress = progress
         self.titleLab.text = model.title
     }
     

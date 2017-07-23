@@ -48,7 +48,9 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     }
     var direction : TKReadingDirection = .none
     
-    var currentPage : (Int,Int)!
+    var currentPage : (Int,Int,Int)!
+    
+    var readingRecord : (Int,Int)!
     
     var needCacheChapters = [Int]()
     
@@ -74,6 +76,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = TKBookConfig.sharedInstance.backgroundColor
@@ -81,20 +84,21 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         pageViewController.dataSource = self
         pageViewController.delegate = self;
         pageViewController.view.frame = self.view.bounds
-        
-        
+
         self.addChildViewController(pageViewController)
         self.view.addSubview(pageViewController.view)
         pageViewController.didMove(toParentViewController: self)
-        
-        
+ 
         let tap = UITapGestureRecognizer(target: self, action: #selector(displaySettingBar))
         
         self.view.addGestureRecognizer(tap)
         
+        
         KVNProgress.show()
         novelDataSource.cacheChaptersNearby(index: novelDataSource.currentPage()!.0) { [unowned self] in
             self.refresh()
+            let range = self.novelDataSource.cacheData[self.novelDataSource.currentPage()!.0]!.ranges[self.novelDataSource.currentPage()!.2]
+            self.readingRecord = (self.novelDataSource.currentPage()!.0,range.0)
             KVNProgress.dismiss()
         }
     }
@@ -128,9 +132,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             })
         }
     }
-    
-    
-    
+        
     func displaySettingBar(){
         if self.topBar.superview == nil && self.bottomBar.superview == nil {
             showBar()
@@ -141,7 +143,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     func dismissViewController(){
-        NotificationCenter.default.post(name: NSNotification.Name(TKBookshelfNotificationDidUpdataBookRecard), object: nil)
+        TKReadingRecordManager.sharedInstance.updateReadingRecord(key: novelDataSource.novelModel.title!, chapterNum: readingRecord.0, location: readingRecord.1)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -186,7 +188,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         let nextIndex = vc.page!
         
         if nextIndex.0 == currentPage.0 {
-            if nextIndex.1 > currentPage.1 {
+            if nextIndex.2 > currentPage.2 {
                 direction = .next
             }else {
                 direction = .pre
@@ -239,9 +241,10 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             }
             
             //保存当前页码
-            novelDataSource.novelModel.indexOfChapter = currentPage.0
-            let range = novelDataSource.cacheData[currentPage.0]!.ranges[currentPage.1]
-            novelDataSource.novelModel.location = range.0
+
+            let range = novelDataSource.cacheData[currentPage.0]!.ranges[currentPage.2]
+            self.readingRecord = (currentPage.0,range.0)
+            
             
             
             
@@ -284,7 +287,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     
-    func viewController(page:(Int,Int)?) -> UIViewController? {
+    func viewController(page:(Int,Int,Int)?) -> UIViewController? {
         
         if page == nil {
             print("空了")
@@ -309,13 +312,13 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     func catalogViewController(vc: TKCatalogViewController, didSelectRowAt indexPath: Int, chapter: TKChapterModel) {
         
-        novelDataSource.novelModel.indexOfChapter = indexPath
-        novelDataSource.novelModel.location = 0
-        
-        currentPage = (indexPath,0)
-        novelDataSource.page = (indexPath,0)
+        self.readingRecord = (indexPath,0)
+
         KVNProgress.show()
-        novelDataSource.cacheChaptersNearby(index: novelDataSource.currentPage()!.0) { [unowned self] in
+        novelDataSource.cacheChaptersNearby(index: indexPath) { [unowned self] in
+            let chapterInfo =  self.novelDataSource.cacheData[indexPath]!
+            self.novelDataSource.page = (indexPath,chapterInfo.ranges.count,0)
+            self.currentPage = (indexPath,chapterInfo.ranges.count,0)
             self.refresh()
             KVNProgress.dismiss()
             

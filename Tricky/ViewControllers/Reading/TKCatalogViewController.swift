@@ -38,8 +38,8 @@ class TKCatalogViewController: TKViewController, UITableViewDelegate, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        tableView.scrollToRow(at: IndexPath(row: novel.indexOfChapter, section: 0), at: .middle, animated: false)
+        let readingRerord = TKReadingRecordManager.sharedInstance.readingRecord(key: novel.title!)
+        tableView.scrollToRow(at: IndexPath(row: readingRerord.0, section: 0), at: .middle, animated: false)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

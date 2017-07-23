@@ -48,7 +48,6 @@ class TKBookConfig {
     var attDic: Dictionary<String,Any> {
         
         let paragraphStyle = NSMutableParagraphStyle()
-        //        paragraphStyle.firstLineHeadIndent = firstLineHeadIndent! * fontSize!
         paragraphStyle.lineSpacing = lineSpacing!
         paragraphStyle.paragraphSpacing = paragraphSpacing!
         paragraphStyle.lineBreakMode = .byCharWrapping
@@ -71,7 +70,7 @@ class TKBookConfig {
     
     
     private init(){
-        lineSpacing = 12.0
+        lineSpacing = 10.0
         paragraphSpacing = 0
         firstLineHeadIndent = 2
         textColor = UIColor.flatBlack

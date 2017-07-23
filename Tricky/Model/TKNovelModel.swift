@@ -28,10 +28,7 @@ class TKNovelModel: NSObject, NSCoding{
     var latestChapterTime : String?
     var source: TKNovelSourceKey?
     var chapters : [TKChapterModel] = [TKChapterModel]()
-    
-    var indexOfChapter: Int = 0
-    var location: Int = 0
-    
+
     override init() {
         super.init()
     }
@@ -50,8 +47,7 @@ class TKNovelModel: NSObject, NSCoding{
         aCoder.encode(self.latestChapterTime, forKey: "latestChapterTime")
         aCoder.encode(self.source?.rawValue, forKey: "source")
         aCoder.encode(self.chapters, forKey: "chapters")
-        aCoder.encode(self.indexOfChapter, forKey: "numOfChapter")
-        aCoder.encode(self.location, forKey: "location")
+
         
     }
     
@@ -69,8 +65,6 @@ class TKNovelModel: NSObject, NSCoding{
         self.latestChapterTime = aDecoder.decodeObject(forKey: "latestChapterTime") as? String
         self.source = (aDecoder.decodeObject(forKey: "source") as? String).map { TKNovelSourceKey(rawValue: $0) }!
         self.chapters = aDecoder.decodeObject(forKey: "chapters") as? [TKChapterModel] ?? [TKChapterModel]()
-        self.indexOfChapter = aDecoder.decodeInteger(forKey: "numOfChapter")
-        self.location = aDecoder.decodeInteger(forKey: "location")
     }
     
     

@@ -21,25 +21,23 @@ class TKNovelDataSource: NSObject {
     var novelModel : TKNovelModel!
     var cacheData : Dictionary<Int,TKChapterInfoModel> = Dictionary<Int,TKChapterInfoModel>()
     var pages = Dictionary<Int,[TKPageInfoModel]>()
-    var page = (0,0)
+    var page = (0,0,0)
     
     var delegate : TKNovelDataSourceDelegate?
     
     init(novel: TKNovelModel) {
         super.init()
         novelModel = novel
-        
-        if novelModel.indexOfChapter != 0 || novelModel.location != 0 {
-            _ =  cacheChapterData(at: novelModel.indexOfChapter) {[unowned self] (suc, info) in
+        let record =  TKReadingRecordManager.sharedInstance.readingRecord(key: novel.title!)
+        if record.0 != 0 || record.1 != 0 {
+            _ =  cacheChapterData(at: record.0) {[unowned self] (suc, info) in
                 guard info != nil else {
                     return
                 }
-                
                 var aPage = 0
                 for range in info!.ranges{
-                    
-                    if self.novelModel.location >= range.0 &&  self.novelModel.location < (range.0 + range.1){
-                        self.page = (self.novelModel.indexOfChapter,aPage)
+                    if record.1 >= range.0 &&  record.1 < (range.0 + range.1){
+                        self.page = (record.0,info!.ranges.count,aPage)
                     }
                     aPage += 1
                 }
@@ -67,7 +65,7 @@ class TKNovelDataSource: NSObject {
                 let pageModel = TKPageInfoModel()
                 pageModel.title = info!.title
                 pageModel.content = info!.content.subString(range: range)
-                pageModel.page = (chapter,page)
+                pageModel.page = (chapter,info!.ranges.count,page)
                 pageModel.location = range.0
                 tempArray.append(pageModel)
                 page += 1
@@ -82,25 +80,25 @@ class TKNovelDataSource: NSObject {
         
     }
     
-    func currentPage() -> (Int,Int)?{
+    func currentPage() -> (Int,Int,Int)?{
         return page
     }
     
-    func nextPage() -> (Int,Int)?{
+    func nextPage() -> (Int,Int,Int)?{
         
         if let pageModel = pages[page.0] {
             // 最后一章最后一页
-            if  page.0 >= novelModel.chapters.count - 1 &&  page.1 >= pageModel.count - 1{
+            if  page.0 >= novelModel.chapters.count - 1 &&  page.2 >= pageModel.count - 1{
                 return nil
-            }else if page.0 < novelModel.chapters.count - 1 && page.1 >= pageModel.count - 1{
+            }else if page.0 < novelModel.chapters.count - 1 && page.2 >= pageModel.count - 1{
                 // 中间章最后一页
-                if pages[page.0 + 1] != nil {
-                    return (page.0 + 1, 0)
+                if let nPageModel = pages[page.0 + 1]{
+                    return (page.0 + 1,nPageModel.count, 0)
                 }else{
                     return nil
                 }
             }else{
-                return  (page.0, page.1 + 1)
+                return  (page.0, pageModel.count, page.2 + 1)
                 
             }
         }
@@ -108,19 +106,19 @@ class TKNovelDataSource: NSObject {
         
     }
     
-    func prePage() -> (Int,Int)?{
+    func prePage() -> (Int,Int,Int)?{
         
-        if page.0 <= 0 && page.1 <= 0{
+        if page.0 <= 0 && page.2 <= 0{
             return nil
-        }else if page.0 > 0 && page.1 <= 0{
+        }else if page.0 > 0 && page.2 <= 0{
             if let pageModel = pages[page.0 - 1] {
-                return (page.0 - 1, pageModel.count - 1)
+                return (page.0 - 1,pageModel.count, pageModel.count - 1)
             }else{
                 return nil
             }
         }else{
-            if pages[page.0] != nil {
-                return  (page.0, page.1 - 1)
+            if let pageModel = pages[page.0] {
+                return  (page.0, pageModel.count,page.2 - 1)
             }
             return nil
         }
@@ -141,14 +139,14 @@ class TKNovelDataSource: NSObject {
     }
     
     
-    func pageInfo(page:(Int,Int)?) -> TKPageInfoModel? {
+    func pageInfo(page:(Int,Int,Int)?) -> TKPageInfoModel? {
         
         guard page != nil else {
             return nil
         }
         
         if let pageModel = pages[page!.0] {
-            return pageModel[page!.1]
+            return pageModel[page!.2]
         }else{
             return nil
         }

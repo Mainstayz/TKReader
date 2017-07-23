@@ -11,6 +11,6 @@ import UIKit
 class TKPageInfoModel: NSObject {
     var title : String!
     var content : String!
-    var page = (0,0)
+    var page = (0,0,0)
     var location = 0
 }

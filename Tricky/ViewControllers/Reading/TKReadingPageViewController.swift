@@ -11,8 +11,7 @@ import UIKit
 class TKReadingPageViewController: TKViewController {
     
 
-    var page : (Int,Int)!
-    
+    var page : (Int,Int,Int)!
     lazy var contentView: TKContentView = {
         let view = TKContentView(frame:TKBookConfig.sharedInstance.displayRect)
         
@@ -21,11 +20,20 @@ class TKReadingPageViewController: TKViewController {
     lazy var titleLabel: UILabel = {
         let lab = UILabel(frame:CGRect(x: 10, y: 0, width: TKScreenWidth-20, height: 30))
         lab.numberOfLines = 0
-        lab.font = UIFont.systemFont(ofSize: 20)
+        lab.font = UIFont.systemFont(ofSize: 12)
+        lab.textColor = TKBookConfig.sharedInstance.textColor
+        return lab
+    }()
+    lazy var hintLabel: UILabel = {
+        let lab = UILabel(frame:CGRect(x: 10, y: TKScreenHeight - 49, width: TKScreenWidth - 30, height: 49))
+        lab.numberOfLines = 0
+        lab.textAlignment = .right
+        lab.font = UIFont.systemFont(ofSize: 14)
         lab.textColor = TKBookConfig.sharedInstance.textColor
         return lab
     }()
     
+
     private var content: String?
     var chapterName : String?
 
@@ -52,12 +60,23 @@ class TKReadingPageViewController: TKViewController {
             self.view.addSubview(self.contentView)
         }
         
+        if self.hintLabel.superview == nil {
+            self.view.addSubview(self.hintLabel)
+        }
+
+        
+        
         
         self.titleLabel.text = chapterName
         
         let attributedText = NSAttributedString(string: self.content!, attributes: TKBookConfig.sharedInstance.attDic)
 
         self.contentView.attributedText = attributedText;
+        
+
+
+        
+        self.hintLabel.text = "\((page.2)+1)/\(page.1)"
 
         
     }

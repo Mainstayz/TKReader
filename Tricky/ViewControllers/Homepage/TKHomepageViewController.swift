@@ -28,10 +28,8 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
         
         NotificationCenter.default.addObserver(self, selector: #selector(refresh(notification:)), name: Notification.Name(TKBookshelfNotificationDidAddBook), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refresh(notification:)), name: Notification.Name(TKBookshelfNotificationDidGetBooksFromCache), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(cacheBooks(notification:)), name: Notification.Name(TKBookshelfNotificationDidUpdataBookRecard), object: nil)
-        
-        
-        
+
+
         
         let row : CGFloat = 3.0
         let width = (CGFloat)((TKScreenWidth - (CGFloat)(row+1.0) * 10)/row)
@@ -48,16 +46,29 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
         let right = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(pushSearchViewController))
         self.navigationItem.rightBarButtonItem = right;
         
+        
+        TKBookshelfService.sharedInstance.updateBookshelf(progress: { (suc, index, novel) in
+            debugPrint("suc \(suc) , index: \(index), \(String(describing: novel?.title))")
+        }) {
+            self.cacheBooks()
+            self.collectionView.reloadData()
+        }
+        
     }
     
-    func refresh(notification:Notification) -> Void {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.collectionView.reloadData()
+    }
+    
+    func refresh(notification:Notification?) -> Void {
         DispatchQueue.main.async {
             self.books = TKBookshelfService.sharedInstance.books
             self.collectionView.reloadData()
         }
     }
     
-    func cacheBooks(notification:Notification) -> Void {
+    func cacheBooks() -> Void {
         
         TKBookshelfService.sharedInstance.cacheBooks { (suc) in
             debugPrint("保存: \(suc)")
@@ -70,7 +81,7 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
         let nv = TKNavigationController(rootViewController: searchViewController)
         self.present(nv, animated: true, completion: nil)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.books.count
     }
@@ -91,7 +102,7 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
         
         let reading = TKReadingViewController()
         reading.novelDataSource = dataSource
-        left.delegate = reading as! TKCatalogViewControllerDelegate
+        left.delegate = reading as TKCatalogViewControllerDelegate
         
         let drawController = KYDrawerController(drawerDirection: .left, drawerWidth: TKScreenWidth - 44)
         

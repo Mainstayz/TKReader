@@ -9,7 +9,6 @@
 import UIKit
 
 let TKBookshelfNotificationDidAddBook : String = "TKBookshelfNotificationDidAddBook"
-let TKBookshelfNotificationDidUpdataBookRecard : String = "TKBookshelfNotificationDidUpdataBookRecard"
 let TKBookshelfNotificationDidGetBooksFromCache : String = "TKBookshelfNotificationDidGetBooksFromCache"
 
 class TKBookshelfService: NSObject {
@@ -18,6 +17,7 @@ class TKBookshelfService: NSObject {
     
     
     static let sharedInstance = TKBookshelfService.init()
+    
     private override init() {
         super.init()
     }
@@ -27,6 +27,30 @@ class TKBookshelfService: NSObject {
         self.books.append(book)
         NotificationCenter.default.post(name:.init(TKBookshelfNotificationDidAddBook), object: nil, userInfo: nil)
     }
+    
+    
+    func updateBookshelf(progress: @escaping (Bool,Int,TKNovelModel?)->Void, completion handle:@escaping()->Void){
+        
+        let group =  DispatchGroup()
+        for i in 0 ..< self.books.count {
+            group.enter()
+            let bookInfo = self.books[i]
+            TKNovelService.novelDetail(url: bookInfo.url, source: bookInfo.source, completion: { (novel) in
+                if novel != nil {
+                    self.books[i] = novel!
+                    progress(true,i,novel)
+                }else{
+                    progress(false,i,novel)
+                }
+                group.leave()
+            })
+        }
+        
+        group.notify(queue: DispatchQueue.main) { 
+            handle()
+        }
+    }
+    
     
     func booksFromCache(completion:@escaping ([TKNovelModel]?)->()){
         
