@@ -10,7 +10,7 @@ import UIKit
 
 
 protocol TKCatalogViewControllerDelegate {
-    func catalogViewController(vc : TKCatalogViewController, didSelectRowAt indexPath: Int,chapter: TKChapterModel)
+    func catalogViewController(vc : TKCatalogViewController, didSelectRowAt indexPath: Int,chapter: TKChapterListModel)
 }
 
 

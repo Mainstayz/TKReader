@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TKChapterModel : NSObject, NSCoding{
+class TKChapterListModel : NSObject, NSCoding{
     var chapterName : String?
     var chapterUrl : String?
     

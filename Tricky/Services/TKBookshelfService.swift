@@ -35,7 +35,7 @@ class TKBookshelfService: NSObject {
         for i in 0 ..< self.books.count {
             group.enter()
             let bookInfo = self.books[i]
-            TKNovelService.novelDetail(url: bookInfo.url, source: bookInfo.source, completion: { (novel) in
+            TKNovelRequest.novelDetail(url: bookInfo.url, source: bookInfo.source, completion: { (novel) in
                 if novel != nil {
                     self.books[i] = novel!
                     progress(true,i,novel)

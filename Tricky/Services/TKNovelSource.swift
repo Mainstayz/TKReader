@@ -74,14 +74,14 @@ class Biquge : TKNovelSource {
         model.latestChapterName = document?.query("@og:novel:latest_chapter_name")?.first()?.attr("content")
         model.latestChapterUrl = document?.query("@og:novel:latest_chapter_url")?.first()?.attr("content")
         
-        var temp = [TKChapterModel]()
+        var temp = [TKChapterListModel]()
         
         let chapters = document?.query("body")?.find("#list")?.find("a")
         
         
         
         for chapter in (chapters)! {
-            let aModel =  TKChapterModel()
+            let aModel =  TKChapterListModel()
             aModel.chapterUrl = self.contentUrl(with:(chapter as! OCGumboNode).attr("href"))
             aModel.chapterName = (chapter as! OCGumboNode).text()
     

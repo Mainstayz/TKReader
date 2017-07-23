@@ -1,5 +1,5 @@
 //
-//  TKBookConfig.swift
+//  TKConfigure.swift
 //  Tricky
 //
 //  Created by Pillar on 2017/6/19.
@@ -10,28 +10,9 @@ import UIKit
 import ChameleonFramework
 
 
-class TKBookConfig {
-    
-    lazy var whitespace: String = {
-        
-        
-        var string = ""
-        var length : CGFloat = 0.0
-        repeat{
-            string += " "
-            let space = NSAttributedString(string: string)
-            length =  CGFloat(CTLineGetTrailingWhitespaceWidth(CTLineCreateWithAttributedString(space)))
-        }while(length < (TKBookConfig.sharedInstance.fontSize!))
-        
-        return string
-        
-        
-        
-    }()
-    
-    
-    
-    static let sharedInstance = TKBookConfig.init()
+class TKConfigure {
+
+    static let `default` = TKConfigure.init()
     
     var lineSpacing : CGFloat?
     var paragraphSpacing : CGFloat?
@@ -43,9 +24,9 @@ class TKBookConfig {
     var titleColor : UIColor?
     var pageColor : UIColor?
     
-    let displayRect = CGRect(x: 10, y: 30, width: TKScreenWidth - 30, height: TKScreenHeight - 72)
     
-    var attDic: Dictionary<String,Any> {
+    
+    var contentAttribute: Dictionary<String,Any> {
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = lineSpacing!
@@ -60,16 +41,16 @@ class TKBookConfig {
     }
     
     
-    var titleAttDic: Dictionary<String,Any> {
+    var titleAttribute: Dictionary<String,Any> {
         
         let attributeDic = [NSFontAttributeName:UIFont(name: "PingFang SC", size: 12.0)!,NSForegroundColorAttributeName:titleColor!] as [String : Any]
         return attributeDic
         
     }
-    
-    
+
     
     private init(){
+        
         lineSpacing = 10.0
         paragraphSpacing = 0
         firstLineHeadIndent = 2

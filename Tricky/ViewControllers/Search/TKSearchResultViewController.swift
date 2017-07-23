@@ -8,7 +8,7 @@
 
 import UIKit
 import SVPullToRefresh
-import KVNProgress
+import MBProgressHUD
 
 class TKSearchResultViewController: UITableViewController {
     
@@ -56,9 +56,9 @@ class TKSearchResultViewController: UITableViewController {
             novels.removeAll()
         }
         
-        KVNProgress.show()
-        TKNovelService.searchNovel(source: .Buquge, keyword: keyword, page: page) { (list) in ()
-            KVNProgress.dismiss()
+       MBProgressHUD.showAdded(to: UIApplication.shared.keyWindow!, animated: true)
+        TKNovelRequest.searchNovel(source: .Buquge, keyword: keyword, page: page) { (list) in ()
+            MBProgressHUD.hide(for: UIApplication.shared.keyWindow!, animated: true)
             guard list != nil else {
                 self.tableView.reloadData()
                 self.tableView.infiniteScrollingView.stopAnimating()

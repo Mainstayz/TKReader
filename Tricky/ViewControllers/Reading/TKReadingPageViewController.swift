@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class TKReadingPageViewController: TKViewController {
     
 
     var page : (Int,Int,Int)!
     lazy var contentView: TKContentView = {
-        let view = TKContentView(frame:TKBookConfig.sharedInstance.displayRect)
+        let view = TKContentView(frame:TKBookDisplayRect)
         
         return view
     }()
@@ -21,7 +22,7 @@ class TKReadingPageViewController: TKViewController {
         let lab = UILabel(frame:CGRect(x: 10, y: 0, width: TKScreenWidth-20, height: 30))
         lab.numberOfLines = 0
         lab.font = UIFont.systemFont(ofSize: 12)
-        lab.textColor = TKBookConfig.sharedInstance.textColor
+        lab.textColor = TKConfigure.default.textColor
         return lab
     }()
     lazy var hintLabel: UILabel = {
@@ -29,7 +30,7 @@ class TKReadingPageViewController: TKViewController {
         lab.numberOfLines = 0
         lab.textAlignment = .right
         lab.font = UIFont.systemFont(ofSize: 14)
-        lab.textColor = TKBookConfig.sharedInstance.textColor
+        lab.textColor = TKConfigure.default.pageColor
         return lab
     }()
     
@@ -41,6 +42,7 @@ class TKReadingPageViewController: TKViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.automaticallyAdjustsScrollViewInsets = false
+        MBProgressHUD.showAdded(to: view, animated: true)
         if self.content == nil  {
             return
         }
@@ -56,7 +58,7 @@ class TKReadingPageViewController: TKViewController {
             self.view.addSubview(self.titleLabel)
         }
         if self.contentView.superview == nil {
-            self.contentView.backgroundColor = TKBookConfig.sharedInstance.backgroundColor
+            self.contentView.backgroundColor = TKConfigure.default.backgroundColor
             self.view.addSubview(self.contentView)
         }
         
@@ -69,7 +71,7 @@ class TKReadingPageViewController: TKViewController {
         
         self.titleLabel.text = chapterName
         
-        let attributedText = NSAttributedString(string: self.content!, attributes: TKBookConfig.sharedInstance.attDic)
+        let attributedText = NSAttributedString(string: self.content!, attributes: TKConfigure.default.contentAttribute)
 
         self.contentView.attributedText = attributedText;
         
@@ -77,8 +79,14 @@ class TKReadingPageViewController: TKViewController {
 
         
         self.hintLabel.text = "\((page.2)+1)/\(page.1)"
+        
+        MBProgressHUD.hide(for: view, animated: true)
 
         
+    }
+    
+    deinit {
+        MBProgressHUD.hide(for: view, animated: true)
     }
     
     override func viewWillLayoutSubviews() {

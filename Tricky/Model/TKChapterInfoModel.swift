@@ -12,6 +12,5 @@ class TKChapterInfoModel: NSObject {
     var title : String!
     var content : String!
     var ranges : [(Int,Int)]!
-    
-    
+
 }

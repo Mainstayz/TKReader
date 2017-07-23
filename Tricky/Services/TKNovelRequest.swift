@@ -1,5 +1,5 @@
 //
-//  TKNovelService.swift
+//  TKNovelRequest.swift
 //  Tricky
 //
 //  Created by Pillar on 2017/6/24.
@@ -11,7 +11,7 @@ import Alamofire
 
 
 
-class TKNovelService{
+class TKNovelRequest{
     
     static var requestQueue = Dictionary<String,Bool>()
     

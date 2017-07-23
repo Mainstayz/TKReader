@@ -27,7 +27,7 @@ class TKNovelModel: NSObject, NSCoding{
     var latestChapterUrl : String?
     var latestChapterTime : String?
     var source: TKNovelSourceKey?
-    var chapters : [TKChapterModel] = [TKChapterModel]()
+    var chapters : [TKChapterListModel] = [TKChapterListModel]()
 
     override init() {
         super.init()
@@ -64,7 +64,7 @@ class TKNovelModel: NSObject, NSCoding{
         self.latestChapterUrl = aDecoder.decodeObject(forKey: "latestChapterUrl") as? String
         self.latestChapterTime = aDecoder.decodeObject(forKey: "latestChapterTime") as? String
         self.source = (aDecoder.decodeObject(forKey: "source") as? String).map { TKNovelSourceKey(rawValue: $0) }!
-        self.chapters = aDecoder.decodeObject(forKey: "chapters") as? [TKChapterModel] ?? [TKChapterModel]()
+        self.chapters = aDecoder.decodeObject(forKey: "chapters") as? [TKChapterListModel] ?? [TKChapterListModel]()
     }
     
     

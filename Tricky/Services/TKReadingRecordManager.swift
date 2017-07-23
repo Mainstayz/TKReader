@@ -76,9 +76,6 @@ class TKReadingRecordManager: NSObject {
             
         }
         
-        //利用自带的json库转换成Data
-        
-        //如果设置options为JSONSerialization.WritingOptions.prettyPrinted，则打印格式更好阅读
         
         let data = try? JSONSerialization.data(withJSONObject: record, options:.prettyPrinted)
         

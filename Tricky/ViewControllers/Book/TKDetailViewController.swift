@@ -71,7 +71,7 @@ class TKDetailViewController: TKViewController {
     
     
     func updateData(complete:@escaping (Bool)->()) -> Void {
-        TKNovelService.novelDetail(url: self.bookDetail.url!, source: TKNovelSourceKey.Buquge) { (detail) in
+        TKNovelRequest.novelDetail(url: self.bookDetail.url!, source: TKNovelSourceKey.Buquge) { (detail) in
             if detail != nil {
                 self.bookDetail = detail
                 complete(true)

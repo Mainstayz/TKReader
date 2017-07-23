@@ -13,9 +13,10 @@ target 'Tricky' do
   pod 'SwiftyJSON'
   pod 'DGElasticPullToRefresh'
   pod 'SVPullToRefresh'
-  pod 'KVNProgress'
-  pod 'CWStatusBarNotification'
   pod 'KYDrawerController'
+  pod 'Toast-Swift'
+  pod 'MBProgressHUD'
+  pod 'CWStatusBarNotification'
   # Pods for Tricky
 
 end
