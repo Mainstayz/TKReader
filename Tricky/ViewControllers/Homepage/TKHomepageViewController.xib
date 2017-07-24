@@ -23,12 +23,7 @@
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="jrE-Gi-sGj">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Le3-fJ-8SD">
-                        <size key="itemSize" width="50" height="50"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
+                    <collectionViewLayout key="collectionViewLayout" id="i1w-cU-upH" customClass="TKBookshelfFlowLayout" customModule="Tricky"/>
                 </collectionView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -38,7 +33,7 @@
                 <constraint firstItem="jrE-Gi-sGj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="RdZ-5Z-9DZ"/>
                 <constraint firstAttribute="trailing" secondItem="jrE-Gi-sGj" secondAttribute="trailing" id="wXd-NM-T1H"/>
             </constraints>
-            <point key="canvasLocation" x="-369" y="29"/>
+            <point key="canvasLocation" x="-443" y="-54"/>
         </view>
     </objects>
 </document>

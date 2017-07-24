@@ -15,7 +15,7 @@ class TKReadingRecordManager: NSObject {
     
     var record : Dictionary<String,Dictionary<String, Int>>!
     
-    static let sharedInstance = TKReadingRecordManager.init()
+    static let `default` = TKReadingRecordManager.init()
     private override init() {
         super.init()
     }
@@ -54,6 +54,7 @@ class TKReadingRecordManager: NSObject {
     func removeReadingRecord(key:String) -> Void {
         checkRecord()
         record[key] = nil
+        save()
     }
     
     func removeAllReadingRecord() -> Void {
@@ -69,6 +70,12 @@ class TKReadingRecordManager: NSObject {
     
     
     func save() -> Void {
+        
+        if record.count == 0 {
+            removeAllReadingRecord()
+            return
+        }
+        
         
         if(!JSONSerialization.isValidJSONObject(record)) {
             print("is not a valid json object")

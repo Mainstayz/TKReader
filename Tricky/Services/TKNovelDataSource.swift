@@ -26,7 +26,7 @@ class TKNovelDataSource: NSObject {
     init(novel: TKNovelModel) {
         super.init()
         self.novel = novel
-        let record =  TKReadingRecordManager.sharedInstance.readingRecord(key: novel.title!)
+        let record =  TKReadingRecordManager.default.readingRecord(key: novel.title!)
         if record.0 != 0 || record.1 != 0 {
             _ =  cacheChapter(at: record.0) {[unowned self] (suc, info) in
                 guard info != nil else {

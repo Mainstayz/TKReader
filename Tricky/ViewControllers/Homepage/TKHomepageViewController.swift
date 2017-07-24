@@ -10,10 +10,13 @@ import UIKit
 import KYDrawerController
 
 
-class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate{
+class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,TKBookshelfFlowLayoutDelegate{
     
     var books : [TKNovelModel]!
     var itemSize : CGSize!
+    var inEditState : Bool = false
+    var editButton : UIButton!
+    weak var layout : TKBookshelfFlowLayout?
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -31,27 +34,44 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
 
 
         
+        let right = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(pushSearchViewController))
+        self.navigationItem.rightBarButtonItem = right
+
+        
+        editButton = UIButton(type:.custom)
+        editButton.setTitle("编辑", for: .normal)
+        editButton.setTitleColor(UIColor.white, for: .normal)
+        editButton.sizeToFit()
+        editButton.addTarget(self, action: #selector(changeInEditState), for: .touchUpInside)
+
+        
+        
         let row : CGFloat = 3.0
         let width = (CGFloat)((TKScreenWidth - (CGFloat)(row+1.0) * 10)/row)
         let height = width * 12.0 / 9 + 40
         itemSize = CGSize(width: width, height: height)
         
+        let layout =  self.collectionView.collectionViewLayout as! TKBookshelfFlowLayout
+        layout.delegate = self
+        self.layout = layout
         
         self.collectionView.register(UINib(nibName: "TKBookCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "bookCell")
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.books = TKBookshelfService.sharedInstance.books
         
-        self.collectionView.reloadData()
-        let right = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(pushSearchViewController))
-        self.navigationItem.rightBarButtonItem = right;
+        self.reloadData()
+        
+        
+        
+        
         
         
         TKBookshelfService.sharedInstance.updateBookshelf(progress: { (suc, index, novel) in
             debugPrint("suc \(suc) , index: \(index), \(String(describing: novel?.title))")
         }) {
             self.cacheBooks()
-            self.collectionView.reloadData()
+            self.reloadData()
         }
         
     }
@@ -61,10 +81,68 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
         self.collectionView.reloadData()
     }
     
+    func reloadData(){
+        
+        if self.books.count == 0 {
+            self.navigationItem.leftBarButtonItem = nil
+            didChangeEditState(inEditState: false)
+            layout?.inEditState = false
+        }else{
+            let left = UIBarButtonItem(customView: editButton)
+            self.navigationItem.leftBarButtonItem = left
+        }
+        
+        self.collectionView.reloadData()
+    }
+    
+    func changeInEditState() -> Void {
+        let state = !self.inEditState
+        didChangeEditState(inEditState: state)
+        layout?.inEditState = state
+    }
+    func deleteBtnDidClicked(sender: UIButton, event:UIEvent){
+        
+        let touch = event.allTouches?.first
+        if let point = touch?.location(in: collectionView) {
+            if let indexPath = collectionView.indexPathForItem(at: point){
+                if indexPath.section == 0{
+                    
+                    let novel = self.books[indexPath.item]
+                    collectionView.performBatchUpdates({ [unowned self] in
+                        self.collectionView.deleteItems(at: [indexPath])
+                        self.books.remove(at: indexPath.item)
+                    }, completion: { [unowned self] (finished) in
+                        // 删除书架
+                        
+                        TKBookshelfService.sharedInstance.books.remove(at: indexPath.item)
+                        TKBookshelfService.sharedInstance.cacheBooks { (suc) in
+                            debugPrint("删除: \(suc)")
+                        }
+
+                        
+                        // 删除本机下载的记录
+                        FileManager.default.deleteNovel(title: novel.title!)
+                        // 删除观看记录
+                        TKReadingRecordManager.default.removeReadingRecord(key: novel.title!)
+                        // 保存
+                        self.cacheBooks()
+                        
+                        self.reloadData()
+                    })
+                }
+            }
+            
+        }
+        
+        
+        
+    }
+    
+    
     func refresh(notification:Notification?) -> Void {
         DispatchQueue.main.async {
             self.books = TKBookshelfService.sharedInstance.books
-            self.collectionView.reloadData()
+            self.reloadData()
         }
     }
     
@@ -89,6 +167,8 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "bookCell", for: indexPath) as! TKBookCollectionViewCell
         cell.configure(model:self.books[indexPath.item])
+        cell.setInEditState(edit: self.inEditState)
+        cell.closeButton.addTarget(self, action: #selector(deleteBtnDidClicked(sender:event:)), for: .touchUpInside)
         return cell
     }
     
@@ -130,6 +210,30 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
     }
     
     
+    // MARK: - 
+    
+    
+    func moveItem(atIndex: IndexPath, toIndex: IndexPath) {
+        swap(&self.books[atIndex.item], &self.books[toIndex.item])
+        swap(&TKBookshelfService.sharedInstance.books[atIndex.item], &TKBookshelfService.sharedInstance.books[toIndex.item])
+
+        self.cacheBooks()
+    }
+    
+    func didChangeEditState(inEditState: Bool) {
+        self.inEditState  = inEditState
+        for cell in collectionView.visibleCells {
+            (cell as! TKBookCollectionViewCell).setInEditState(edit: inEditState)
+        }
+        if inEditState {
+            editButton.setTitle("取消", for: .normal)
+        }else{
+            editButton.setTitle("编辑", for: .normal)
+        }
+        
+    }
+    
+    // MARK: -
     
     override var prefersStatusBarHidden: Bool{
         return false

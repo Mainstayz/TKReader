@@ -80,11 +80,12 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         
         self.view.addSubview(self.toastView)
  
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         novelDataSource.cacheChaptersNearby(index: novelDataSource.page.0) { [unowned self] in
             self.refresh()
             let range = self.novelDataSource.downloadedChapters[self.novelDataSource.page.0]!.ranges[self.novelDataSource.page.2]
             self.readingRecord = (self.novelDataSource.page.0,range.0)
-      
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
     
@@ -92,6 +93,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     func showBar(){
+        
         if self.topBar.superview == nil && self.bottomBar.superview == nil {
             statusBarHidden = false
             self.view.addSubview(self.topBar)
@@ -143,7 +145,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     func dismissViewController(){
-        TKReadingRecordManager.sharedInstance.updateReadingRecord(key: novelDataSource.novel.title!, chapterNum: readingRecord.0, location: readingRecord.1)
+        TKReadingRecordManager.default.updateReadingRecord(key: novelDataSource.novel.title!, chapterNum: readingRecord.0, location: readingRecord.1)
         self.dismiss(animated: true, completion: nil)
     }
     

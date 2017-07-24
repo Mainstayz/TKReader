@@ -89,10 +89,28 @@ class TKBookshelfService: NSObject {
     }
     func cacheBooks(completion:@escaping (Bool)->()) -> Void {
         
+        let archiverPath = self.archiverPath()
+        print(archiverPath)
+        
+        if books.count == 0 {
+            do {
+                try FileManager.default.removeItem(atPath: archiverPath)
+            } catch let error as NSError  {
+                debugPrint(error)
+                completion(false)
+                return
+            }
+            
+            completion(true)
+            return
+        }
+        
+        
+        
         let queue = DispatchQueue(label: "com.cacheBooks.tk")
         queue.async {
-            let archiverPath = self.archiverPath()
-            print(archiverPath)
+            
+            
             let data =  NSMutableData()
             let archiver = NSKeyedArchiver(forWritingWith: data)
             archiver.encode(self.books, forKey: "books")
