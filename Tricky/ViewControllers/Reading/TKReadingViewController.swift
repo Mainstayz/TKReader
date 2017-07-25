@@ -126,7 +126,9 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             if let page = self.novelDataSource.prePage(){
                 
                 if let viewController =  self.viewController(page: page){
+                    pageViewController.dataSource = nil
                     pageViewController.setViewControllers([viewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
+                        self.pageViewController.dataSource = self
                         self.novelDataSource.page = page
                         self.currentPage = page
                         if let preChapter = self.novelDataSource.preChapter() {
@@ -156,7 +158,9 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             if let page = self.novelDataSource.nextPage(){
 
                 if let viewController =  self.viewController(page: page){
+                    pageViewController.dataSource = nil
                     pageViewController.setViewControllers([viewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
+                        self.pageViewController.dataSource = self
                         self.novelDataSource.page = page
                         self.currentPage = page
                         
