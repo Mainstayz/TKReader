@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -48,7 +49,7 @@
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WqO-Tu-IwL">
                             <rect key="frame" x="20" y="269" width="335" height="1153"/>
-                            <mutableString key="text">swift 中的闭包默认捕获变量的方式相当于 oc中block中捕获被标记为 __block的变量方式 -&gt; 就是说 闭包捕获到的是变量的指针
+                            <string key="text">swift 中的闭包默认捕获变量的方式相当于 oc中block中捕获被标记为 __block的变量方式 -&gt; 就是说 闭包捕获到的是变量的指针
 swift中只要不是在多线程中, 建议使用[unowned self]来避免循环引用, 多线程中, 建议使用[weak self]
 == 操作符相当于oc中的isEqual: --- 即比较内容是否相等；=== 相当于oc中的指针比较
 继承自NSObject的子类如果重写了isEquals:方法, 应当提供 hash 这个属性
@@ -80,7 +81,7 @@ swift中使用 Core Foundation
 处理方法: 在使用返回的值之前调用他对应的takeUnretainedValue() 或takeRetainedValue()即可
 例如let memoryManagedResult = StringByAddingTwoStrings(str1, str2).takeUnretainedValue()
 swift中Core Foundation里的类型 Ref后缀被去掉了 例如 CFTypeRef -&gt; CFType
-在oc的方法 使用 NS_SWIFT_NOTHROW , 将不会使用swift的异常抛出机制</mutableString>
+在oc的方法 使用 NS_SWIFT_NOTHROW , 将不会使用swift的异常抛出机制</string>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.13346317410469055" green="0.18231484293937683" blue="0.25190103054046631" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -100,28 +101,34 @@ swift中Core Foundation里的类型 Ref后缀被去掉了 例如 CFTypeRef -&gt;
                         <constraint firstItem="WqO-Tu-IwL" firstAttribute="top" secondItem="rgX-i8-j2x" secondAttribute="bottom" constant="20" id="wlS-sD-a3B"/>
                     </constraints>
                 </scrollView>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="O9A-1R-fE4">
-                    <rect key="frame" x="0.0" y="639" width="375" height="29"/>
-                    <segments>
-                        <segment title="阅读"/>
-                        <segment title="加入书架"/>
-                    </segments>
-                    <color key="tintColor" red="0.25005361437797546" green="0.30566063523292542" blue="0.58369332551956177" alpha="1" colorSpace="calibratedRGB"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Kb-mt-GF9">
+                    <rect key="frame" x="0.0" y="637" width="187.5" height="30"/>
+                    <state key="normal" title="阅读"/>
                     <connections>
-                        <action selector="valueDidChanged:" destination="-1" eventType="valueChanged" id="E1d-lX-NlZ"/>
+                        <action selector="read" destination="-1" eventType="touchUpInside" id="NLx-EU-Mbd"/>
                     </connections>
-                </segmentedControl>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQW-lJ-M7c">
+                    <rect key="frame" x="187.5" y="637" width="187.5" height="30"/>
+                    <state key="normal" title="加入书架"/>
+                    <connections>
+                        <action selector="addToBookrack" destination="-1" eventType="touchUpInside" id="oMU-uD-YAQ"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="O9A-1R-fE4" secondAttribute="trailing" id="4p5-cE-6vk"/>
-                <constraint firstAttribute="bottom" secondItem="O9A-1R-fE4" secondAttribute="bottom" id="9UA-4L-BMc"/>
+                <constraint firstItem="zQW-lJ-M7c" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="1za-Jx-e2Q"/>
                 <constraint firstAttribute="trailing" secondItem="HRw-ry-WQl" secondAttribute="trailing" id="H0h-NN-8xx"/>
-                <constraint firstItem="O9A-1R-fE4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="cMs-AY-EEV"/>
+                <constraint firstAttribute="trailing" secondItem="zQW-lJ-M7c" secondAttribute="trailing" id="Qob-xZ-xAs"/>
+                <constraint firstAttribute="bottom" secondItem="0Kb-mt-GF9" secondAttribute="bottom" id="fCs-3P-yXG"/>
                 <constraint firstItem="HRw-ry-WQl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="jyY-Qm-Mlc"/>
+                <constraint firstAttribute="centerX" secondItem="0Kb-mt-GF9" secondAttribute="trailing" id="lCB-Ft-Lfr"/>
+                <constraint firstAttribute="bottom" secondItem="zQW-lJ-M7c" secondAttribute="bottom" id="mLl-z2-eLB"/>
                 <constraint firstAttribute="bottom" secondItem="HRw-ry-WQl" secondAttribute="bottom" id="sxa-Vx-H25"/>
                 <constraint firstItem="HRw-ry-WQl" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="vke-1U-adi"/>
                 <constraint firstItem="HRw-ry-WQl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xGN-UD-zPZ"/>
+                <constraint firstItem="0Kb-mt-GF9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="yRv-Kd-pHd"/>
             </constraints>
             <point key="canvasLocation" x="-577" y="17"/>
         </view>

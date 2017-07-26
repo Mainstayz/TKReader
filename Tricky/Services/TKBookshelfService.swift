@@ -87,6 +87,22 @@ class TKBookshelfService: NSObject {
 
         
     }
+    
+    func novelExists(title: String) -> Bool{
+    
+        if self.books.count == 0 {
+            return false
+        }
+        
+        for novel in self.books{
+            if novel.title == title{
+                return true
+            }
+        }
+        return false
+        
+    }
+    
     func cacheBooks(completion:@escaping (Bool)->()) -> Void {
         
         let archiverPath = self.archiverPath()

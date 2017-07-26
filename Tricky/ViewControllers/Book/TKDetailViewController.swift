@@ -8,6 +8,8 @@
 
 import UIKit
 import CWStatusBarNotification
+import KYDrawerController
+
 
 class TKDetailViewController: TKViewController {
 
@@ -33,22 +35,55 @@ class TKDetailViewController: TKViewController {
         
     }
     
-    @IBAction func valueDidChanged(_ sender: UISegmentedControl) {
+    @IBAction func read() -> Void {
         
-        switch sender.selectedSegmentIndex {
-        case 0: self.read()
-        case 1: self.addToBookrack()
-        default:
-            return
-        }
-    }
-    func read() -> Void {
-        
-        if !self.didUpdata {
+        if self.didUpdata {
             
+            let left = TKCatalogViewController(novel: self.bookDetail)
+            
+            let dataSource = TKNovelDataSource(novel: self.bookDetail)
+            
+            let reading = TKReadingViewController()
+            reading.novelDataSource = dataSource
+            left.delegate = reading as TKCatalogViewControllerDelegate
+            
+            let drawController = KYDrawerController(drawerDirection: .left, drawerWidth: TKScreenWidth - 44)
+            drawController.mainViewController = reading
+            drawController.drawerViewController = left
+            
+            self.present(drawController, animated: true, completion: nil)
+
+            
+        }else{
+            
+            self.statusBarNotification.display(withMessage: "正在读取数据", completion: nil)
+            
+            self.updateData { [unowned self] (finied) in
+                
+                self.didUpdata = finied
+                self.statusBarNotification.dismiss()
+
+                let left = TKCatalogViewController(novel: self.bookDetail)
+                
+                let dataSource = TKNovelDataSource(novel: self.bookDetail)
+                
+                let reading = TKReadingViewController()
+                reading.novelDataSource = dataSource
+                left.delegate = reading as TKCatalogViewControllerDelegate
+                
+                let drawController = KYDrawerController(drawerDirection: .left, drawerWidth: TKScreenWidth - 44)
+                drawController.mainViewController = reading
+                drawController.drawerViewController = left
+                
+                self.present(drawController, animated: true, completion: nil)
+
+                
+                
+                
+            }
         }
     }
-    func addToBookrack() -> Void {
+    @IBAction func addToBookrack() -> Void {
         
         if  self.didUpdata {
             return

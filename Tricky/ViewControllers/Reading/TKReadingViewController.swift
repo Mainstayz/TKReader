@@ -126,9 +126,9 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             if let page = self.novelDataSource.prePage(){
                 
                 if let viewController =  self.viewController(page: page){
+                    hiddenBar()
                     pageViewController.dataSource = nil
                     pageViewController.setViewControllers([viewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
-                        self.pageViewController.dataSource = self
                         self.novelDataSource.page = page
                         self.currentPage = page
                         if let preChapter = self.novelDataSource.preChapter() {
@@ -142,6 +142,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
                         }
                         let range = self.novelDataSource.downloadedChapters[self.currentPage.0]!.ranges[self.currentPage.2]
                         self.readingRecord = (self.currentPage.0,range.0)
+                        self.pageViewController.dataSource = self
                     }
                 }
             }else{
@@ -155,12 +156,13 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             }
             return
         }else if location.x > 2 * (TKScreenWidth / 3.0) {
+            
             if let page = self.novelDataSource.nextPage(){
 
                 if let viewController =  self.viewController(page: page){
+                    hiddenBar()
                     pageViewController.dataSource = nil
                     pageViewController.setViewControllers([viewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
-                        self.pageViewController.dataSource = self
                         self.novelDataSource.page = page
                         self.currentPage = page
                         
@@ -175,7 +177,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
                         }
                         let range = self.novelDataSource.downloadedChapters[self.currentPage.0]!.ranges[self.currentPage.2]
                         self.readingRecord = (self.currentPage.0,range.0)
-            
+                        self.pageViewController.dataSource = self
                     }
                 }
             }else{
@@ -215,6 +217,35 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     func dismissViewController(){
+        
+        if TKBookshelfService.sharedInstance.novelExists(title: novelDataSource.novel.title!) == false {
+            
+            let alertController  = UIAlertController(title: nil, message: "是否加入书架？", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (alertAction) in
+                // 删除本机下载的记录
+                FileManager.default.deleteNovel(title: self.novelDataSource.novel.title!)
+                self.dismiss(animated: true, completion: nil)
+            }))
+            alertController.addAction(UIAlertAction(title: "加入", style: .default, handler: { (alertAction) in
+                // 添加书架
+                TKBookshelfService.sharedInstance.add(book: self.novelDataSource.novel)
+                TKBookshelfService.sharedInstance.cacheBooks(completion: { (finish) in
+                    print("保存完毕")
+                })
+                // 保存阅读记录
+                TKReadingRecordManager.default.updateReadingRecord(key: self.novelDataSource.novel.title!, chapterNum: self.readingRecord.0, location: self.readingRecord.1)
+                self.dismiss(animated: true, completion: nil)
+            }))
+            
+            self.present(alertController, animated: true, completion: nil)
+            
+            return
+            
+            
+        }
+        
+        
+        
         TKReadingRecordManager.default.updateReadingRecord(key: novelDataSource.novel.title!, chapterNum: readingRecord.0, location: readingRecord.1)
         self.dismiss(animated: true, completion: nil)
     }
