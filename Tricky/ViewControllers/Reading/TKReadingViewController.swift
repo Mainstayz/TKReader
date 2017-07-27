@@ -81,7 +81,9 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         self.view.addSubview(self.toastView)
         
         MBProgressHUD.showAdded(to: self.view, animated: true)
-        novelDataSource.cacheChaptersNearby(index: novelDataSource.page.0) { [unowned self] in
+        let record =  TKReadingRecordManager.default.readingRecord(key: novelDataSource.novel.title!)
+        novelDataSource.cacheChaptersNearby(index: record.0) { [unowned self] in
+            self.novelDataSource.page = self.novelDataSource.page(from: record)!
             self.refresh()
             let range = self.novelDataSource.downloadedChapters[self.novelDataSource.page.0]!.ranges[self.novelDataSource.page.2]
             self.readingRecord = (self.novelDataSource.page.0,range.0)

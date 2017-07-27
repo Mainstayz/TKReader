@@ -44,6 +44,16 @@ class TKNovelDataSource: NSObject {
         }
         
     }
+    
+    func page(from record:(Int,Int)) -> (Int,Int,Int)?{
+        let info = downloadedChapters[record.0]!
+        for (index,range) in info.ranges.enumerated() {
+            if record.1 >= range.0 &&  record.1 < (range.0 + range.1){
+                return (record.0,info.ranges.count,index)
+            }
+        }
+        return nil
+    }
 
     func parse(chapter:Int, completion:@escaping ()->Void){
         

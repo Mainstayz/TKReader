@@ -47,7 +47,7 @@ class TKHomepageViewController: TKViewController,UICollectionViewDataSource,UICo
         
         
         let row : CGFloat = 3.0
-        let width = (CGFloat)((TKScreenWidth - (CGFloat)(row+1.0) * 10)/row)
+        let width : CGFloat  =  floor((TKScreenWidth - (CGFloat)(row+1.0) * 10)/row)
         let height = width * 12.0 / 9 + 40
         itemSize = CGSize(width: width, height: height)
         
