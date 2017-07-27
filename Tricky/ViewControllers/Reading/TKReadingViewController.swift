@@ -24,8 +24,6 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     var direction : TKReadingDirection = .none
     
-    var currentPage : (Int,Int,Int)!
-    
     var readingRecord : (Int,Int)!
     
     var needCacheChapters = [Int]()
@@ -63,8 +61,10 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.view.backgroundColor = TKConfigure.default.backgroundColor
+        
         pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey:0])
         pageViewController.dataSource = self
         pageViewController.delegate = self;
@@ -74,15 +74,20 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         self.view.addSubview(pageViewController.view)
         pageViewController.didMove(toParentViewController: self)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(displaySettingBar(gesture:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(pageDidCilcked(with:)))
         
         self.view.addGestureRecognizer(tap)
         
         self.view.addSubview(self.toastView)
         
-        MBProgressHUD.showAdded(to: self.view, animated: true)
         let record =  TKReadingRecordManager.default.readingRecord(key: novelDataSource.novel.title!)
+        
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
+        // 拿到阅读记录附近的章节
         novelDataSource.cacheChaptersNearby(index: record.0) { [unowned self] in
+            
+            //更新当前 页码数
             self.novelDataSource.page = self.novelDataSource.page(from: record)!
             self.refresh()
             let range = self.novelDataSource.downloadedChapters[self.novelDataSource.page.0]!.ranges[self.novelDataSource.page.2]
@@ -93,9 +98,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     
-    
     func showBar(){
-        
         if self.topBar.superview == nil && self.bottomBar.superview == nil {
             statusBarHidden = false
             self.view.addSubview(self.topBar)
@@ -122,31 +125,27 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         }
     }
     
-    func displaySettingBar(gesture:UITapGestureRecognizer){
+    
+    
+    
+    
+    func pageDidCilcked(with gesture:UITapGestureRecognizer){
         let location = gesture.location(in: view)
         if location.x < TKScreenWidth / 3.0 {
             if let page = self.novelDataSource.prePage(){
-                
                 if let viewController =  self.viewController(page: page){
-                    hiddenBar()
-                    pageViewController.dataSource = nil
-                    pageViewController.setViewControllers([viewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
-                        self.novelDataSource.page = page
-                        self.currentPage = page
+                    jump(to: viewController, set: page, completion: {  [unowned self] in
                         if let preChapter = self.novelDataSource.preChapter() {
                             if self.novelDataSource.downloadedChapters[preChapter] == nil {
-                                self.novelDataSource.parse(chapter: preChapter, completion: { [unowned self] in
+                                self.novelDataSource.parse(chapter: preChapter, completion: {[unowned self] _ in
                                     self.displayToastView(hidden: true)
-
                                     debugPrint("缓存上一章： 、\(preChapter)")
                                 })
                             }
                         }
-                        let range = self.novelDataSource.downloadedChapters[self.currentPage.0]!.ranges[self.currentPage.2]
-                        self.readingRecord = (self.currentPage.0,range.0)
-                        self.pageViewController.dataSource = self
-                    }
+                    })
                 }
+ 
             }else{
                 if let preChapter = novelDataSource.preChapter(){
                     displayToastView(hidden: false)
@@ -162,25 +161,18 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             if let page = self.novelDataSource.nextPage(){
 
                 if let viewController =  self.viewController(page: page){
-                    hiddenBar()
-                    pageViewController.dataSource = nil
-                    pageViewController.setViewControllers([viewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
-                        self.novelDataSource.page = page
-                        self.currentPage = page
-                        
+                    // 跳到下一章
+                    jump(to: viewController, set: page, completion: {[unowned self] in
+                        // 检查下下章是否缓存
                         if let nextChapter = self.novelDataSource.nextChapter() {
                             if self.novelDataSource.downloadedChapters[nextChapter] == nil {
-                                self.novelDataSource.parse(chapter: nextChapter, completion: {[unowned self] in
+                                self.novelDataSource.parse(chapter: nextChapter, completion: {[unowned self] _ in
                                     self.displayToastView(hidden: true)
-
                                     debugPrint("缓存下一章： 、\(nextChapter)")
                                 })
                             }
                         }
-                        let range = self.novelDataSource.downloadedChapters[self.currentPage.0]!.ranges[self.currentPage.2]
-                        self.readingRecord = (self.currentPage.0,range.0)
-                        self.pageViewController.dataSource = self
-                    }
+                    })
                 }
             }else{
                 if let nextChapter = novelDataSource.nextChapter(){
@@ -193,7 +185,6 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             }
             return
         }else{
-            
             if self.topBar.superview == nil && self.bottomBar.superview == nil {
                 showBar()
             }else{
@@ -201,6 +192,20 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             }
         }
     }
+    
+    
+    func jump(to viewcontroller:UIViewController, set page:(Int,Int,Int), completion: (() -> Void)?){
+        hiddenBar()
+        pageViewController.dataSource = nil
+        pageViewController.setViewControllers([viewcontroller], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
+            self.novelDataSource.page = page
+            completion?()
+            let range = self.novelDataSource.downloadedChapters[page.0]!.ranges[page.2]
+            self.readingRecord = (page.0,range.0)
+            self.pageViewController.dataSource = self
+        }
+    }
+    
     
     
     func displayToastView(hidden:Bool){
@@ -219,7 +224,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     func dismissViewController(){
-        
+
         if TKBookshelfService.sharedInstance.novelExists(title: novelDataSource.novel.title!) == false {
             
             let alertController  = UIAlertController(title: nil, message: "是否加入书架？", preferredStyle: .alert)
@@ -245,11 +250,10 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             
             
         }
-        
-        
-        
+
         TKReadingRecordManager.default.updateReadingRecord(key: novelDataSource.novel.title!, chapterNum: readingRecord.0, location: readingRecord.1)
         self.dismiss(animated: true, completion: nil)
+        
     }
     
     func displayLeftViewController(){
@@ -263,21 +267,16 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     
     func refresh() -> Void {
+        
         let page = novelDataSource.page
-        currentPage = page
         if let viewController =  self.viewController(page: page){
-            pageViewController.setViewControllers([viewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { (finished) in
-                print("刷新完毕：\(finished)")
-            }
+            jump(to: viewController, set: page, completion:nil)
         }
-        
-        
-        
+ 
     }
     
     func requestChapter(index: Int, completion:@escaping ()->Void){
-        
-        novelDataSource.parse(chapter: index, completion: {[unowned self] in
+        novelDataSource.parse(chapter: index, completion: {[unowned self]  _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
                 self.refresh()
                 completion()
@@ -290,6 +289,8 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         hiddenBar()
         let vc = pendingViewControllers.first as! TKReadingPageViewController
         let nextIndex = vc.page!
+        
+        let currentPage = self.novelDataSource.page
         
         if nextIndex.0 == currentPage.0 {
             if nextIndex.2 > currentPage.2 {
@@ -312,7 +313,6 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             
             if direction == .next {
                 if let next = novelDataSource.nextPage(){
-                    currentPage = next
                     novelDataSource.page = next
                     debugPrint("现在 \(next)")
                     
@@ -327,7 +327,6 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
                 }
             }else if direction == .pre{
                 if let pre = novelDataSource.prePage(){
-                    currentPage = pre
                     novelDataSource.page = pre
                     debugPrint("现在 \(pre)")
                     
@@ -344,6 +343,8 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             
             //保存当前页码
             
+            let currentPage = novelDataSource.page
+
             let range = novelDataSource.downloadedChapters[currentPage.0]!.ranges[currentPage.2]
             self.readingRecord = (currentPage.0,range.0)
             
@@ -406,7 +407,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         let pegeController = TKReadingPageViewController()
         pegeController.page = page
         pegeController.chapterName = novelDataSource.novel.chapters[page!.0].chapterName
-        if let info =  novelDataSource.pageInfo(page: page){
+        if let info =  novelDataSource.pageInfo(at: page){
             pegeController.syncUpdateContent(content: info.content)
             
         }
@@ -434,7 +435,6 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             
             let chapterInfo =  self.novelDataSource.downloadedChapters[indexPath]!
             self.novelDataSource.page = (indexPath,chapterInfo.ranges.count,0)
-            self.currentPage = (indexPath,chapterInfo.ranges.count,0)
             self.refresh()
             MBProgressHUD.hide(for: self.view, animated: true)
             
