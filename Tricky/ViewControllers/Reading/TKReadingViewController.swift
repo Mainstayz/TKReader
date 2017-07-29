@@ -26,8 +26,6 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     var readingRecord : (Int,Int)!
     
-    var needCacheChapters = [Int]()
-    
     var statusBarHidden = true
     
     lazy var toastView: UILabel = {
@@ -80,18 +78,25 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         
         self.view.addSubview(self.toastView)
         
-        let record =  TKReadingRecordManager.default.readingRecord(key: novelDataSource.novel.title!)
         
+        
+        // 先拿到阅读记录，如果没有，返回（0，0）
+        
+        let record =  TKReadingRecordManager.default.readingRecord(key: novelDataSource.novel.title!)
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
         // 拿到阅读记录附近的章节
         novelDataSource.cacheChaptersNearby(index: record.0) { [unowned self] in
-            
             //更新当前 页码数
+            
             self.novelDataSource.page = self.novelDataSource.page(from: record)!
+            // 刷新显示
             self.refresh()
+            
+            // 保存当前观看的阅读记录
             let range = self.novelDataSource.downloadedChapters[self.novelDataSource.page.0]!.ranges[self.novelDataSource.page.2]
             self.readingRecord = (self.novelDataSource.page.0,range.0)
+            
             MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
@@ -131,12 +136,20 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     func pageDidCilcked(with gesture:UITapGestureRecognizer){
         let location = gesture.location(in: view)
+        // 左边区域
         if location.x < TKScreenWidth / 3.0 {
+            // 判断是否存在上 一个
             if let page = self.novelDataSource.prePage(){
+                // 创建上一页的viewController
                 if let viewController =  self.viewController(page: page){
+                    // 创建成功， 无动画调到上一页
                     jump(to: viewController, set: page, completion: {  [unowned self] in
+                        
+                        //  翻页成功后   判断上一章 是否存在
                         if let preChapter = self.novelDataSource.preChapter() {
                             if self.novelDataSource.downloadedChapters[preChapter] == nil {
+                                // 如果不存在,解析上一章  
+                                //   2 3 4 5      比如说读到第2章，判断第一章是否存在，不存在就下载解析，保存到两个字典里面去
                                 self.novelDataSource.parse(chapter: preChapter, completion: {[unowned self] _ in
                                     self.displayToastView(hidden: true)
                                     debugPrint("缓存上一章： 、\(preChapter)")
@@ -147,6 +160,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
                 }
  
             }else{
+                // 如果上一页不存在，则判断获取上一章
                 if let preChapter = novelDataSource.preChapter(){
                     displayToastView(hidden: false)
                     requestChapter(index: preChapter, completion: { [unowned self] in
@@ -156,8 +170,9 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
                 }
             }
             return
-        }else if location.x > 2 * (TKScreenWidth / 3.0) {
             
+        }else if location.x > 2 * (TKScreenWidth / 3.0) {
+            // 右边区域
             if let page = self.novelDataSource.nextPage(){
 
                 if let viewController =  self.viewController(page: page){
@@ -197,6 +212,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     func jump(to viewcontroller:UIViewController, set page:(Int,Int,Int), completion: (() -> Void)?){
         hiddenBar()
         pageViewController.dataSource = nil
+        // 这个 setViewControllers 就是 UIPageViewController 的 reloadData 方法函数
         pageViewController.setViewControllers([viewcontroller], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
             self.novelDataSource.page = page
             completion?()

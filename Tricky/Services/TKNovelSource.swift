@@ -50,6 +50,7 @@ class Biquge : TKNovelSource {
         return host
     }
     
+    // http://www.xs.la/78_78031/
     override func novelDetail(responseData: Data, completion: (TKNovelModel?) -> ()) {
         
         let string = String(data: responseData, encoding: .utf8)
@@ -96,7 +97,7 @@ class Biquge : TKNovelSource {
         
         
     }
-    
+    // http://www.xs.la/78_78031/4387358.html
     override func chapterDetail(responseData: Data, completion: (String?) -> ()) {
         let string = String(data: responseData, encoding: .utf8)
         
@@ -111,12 +112,13 @@ class Biquge : TKNovelSource {
         
         
         
+        
         if (content != nil){
             let paragraph = content?.components(separatedBy: "\n")
             
             var result : String = String()
             
-            
+            // 分段落 段首部缩进
             for tempString in paragraph! {
                 result += "　　"
                 result += tempString

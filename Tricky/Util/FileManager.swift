@@ -40,6 +40,7 @@ extension FileManager{
         return true
     }
     
+    // 保存小说章节
     func saveNovel(title:String,chapterUrl: String,content:String) -> Void{
         // 异步
         let queue = DispatchQueue(label: "com.saveNove.tk")
@@ -58,11 +59,13 @@ extension FileManager{
                 return
             }
             
+            
+            // 获取到了 小说章节 保存的全路径
             let chapterPath = novelPath + "\(chapterUrl.md5())"
             
             
             do{
-                
+                // 小说章节内容写入磁盘
                 try content.write(toFile: chapterPath, atomically: true, encoding: .utf8)
                 
                 print("保存成功----\(chapterPath)")
@@ -74,7 +77,8 @@ extension FileManager{
         }
     }
     
-    
+    // 获取小说某个章节的缓存路径，如果存在表示缓存过，如果为nil就是没有缓存
+
     func chapterPath(title:String?, chapterUrl: String?) -> String?{
         guard title != nil && chapterUrl != nil else {
             return nil
@@ -83,7 +87,7 @@ extension FileManager{
         let rootPath = self.novelRootPath()
         let chapterPath = rootPath+"\(title!)/"+"\(chapterUrl!.md5())"
         
-        
+        // 说明缓存过了
         let isExist = self.fileExists(atPath: chapterPath)
         
         guard isExist == true else{
@@ -94,6 +98,7 @@ extension FileManager{
         
     }
     
+    // 删除某个小说
     func deleteNovel(title :String){
         guard title.count > 0 else {
             return

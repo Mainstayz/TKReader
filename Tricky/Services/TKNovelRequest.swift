@@ -54,7 +54,7 @@ class TKNovelRequest{
             return
         }
         
-        
+        // 如果已经在下载了，那就不重复下载
         if requestQueue[url!] != nil{
             return
         }

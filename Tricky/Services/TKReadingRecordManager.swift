@@ -24,20 +24,25 @@ class TKReadingRecordManager: NSObject {
         return NSHomeDirectory() + "/Documents/ReadingRecord.tk"
     }
     
+    // 获取 所有的小说阅读记录字典
     private func checkRecord(){
+        // 先从磁盘拿数据
         if let data = NSData(contentsOfFile: readingRecordPath()) {
             do {
                 let json = try JSONSerialization.jsonObject(with: data as Data, options: .mutableContainers)
                 let dic = json as! Dictionary<String,Dictionary<String, Int>>
                 record = dic
             } catch _ {
+                // 出错了，初始化
                 record = Dictionary<String,Dictionary<String, Int>>()
             }
         }else{
+            // 初始化
             record = Dictionary<String,Dictionary<String, Int>>()
         }
     }
     
+    // 更新当前小说的阅读记录 key 就是小说名  第几章  第几个字
     func updateReadingRecord(key:String,chapterNum:Int,location:Int) -> Void {
         checkRecord()
         let readingRecord = [chapterNumber:chapterNum,chapterLoaction:location]

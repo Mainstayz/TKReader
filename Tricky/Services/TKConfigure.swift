@@ -59,6 +59,6 @@ class TKConfigure {
         
         titleColor = UIColor.flatBlack.withAlphaComponent(0.7)
         pageColor = UIColor.flatBlack.withAlphaComponent(0.7)
-        fontSize = 16.0
+        fontSize = 18.0
     }
 }
