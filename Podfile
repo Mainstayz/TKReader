@@ -17,6 +17,7 @@ target 'Tricky' do
   pod 'Toast-Swift'
   pod 'MBProgressHUD'
   pod 'CWStatusBarNotification'
+  pod 'StepSlider'
   # Pods for Tricky
 
 end

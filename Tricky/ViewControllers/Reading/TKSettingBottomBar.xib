@@ -19,17 +19,24 @@
                     <rect key="frame" x="16" y="9" width="31" height="30"/>
                     <state key="normal" title="目录"/>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e0K-NE-0vZ">
+                    <rect key="frame" x="328" y="9" width="31" height="30"/>
+                    <state key="normal" title="字体"/>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="e0K-NE-0vZ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="EAR-jF-Syi"/>
+                <constraint firstAttribute="trailing" secondItem="e0K-NE-0vZ" secondAttribute="trailing" constant="16" id="HqU-eO-5og"/>
                 <constraint firstItem="1jx-hd-coh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="Vje-8f-mSe"/>
                 <constraint firstItem="1jx-hd-coh" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="ka0-YN-2hV"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="catalogButton" destination="1jx-hd-coh" id="hfp-U9-qeQ"/>
+                <outlet property="fontButton" destination="e0K-NE-0vZ" id="db8-lE-TtF"/>
             </connections>
-            <point key="canvasLocation" x="-420" y="221"/>
+            <point key="canvasLocation" x="-661" y="221"/>
         </view>
     </objects>
 </document>

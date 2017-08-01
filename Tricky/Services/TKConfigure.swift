@@ -24,6 +24,7 @@ class TKConfigure {
     var titleColor : UIColor?
     var pageColor : UIColor?
     
+    var fonts = [CGFloat]()
     
     
     var contentAttribute: Dictionary<String,Any> {
@@ -57,8 +58,15 @@ class TKConfigure {
         textColor = UIColor.flatBlack
         backgroundColor = UIColor.init(hexString: "FAF9DE")
         
+        
+        
+        for size in 0 ..< 7{
+            fonts.append(16.0 + CGFloat(size) * 0.5)
+        }
+        
+        
         titleColor = UIColor.flatBlack.withAlphaComponent(0.7)
         pageColor = UIColor.flatBlack.withAlphaComponent(0.7)
-        fontSize = 18.0
+        fontSize = fonts[4]
     }
 }

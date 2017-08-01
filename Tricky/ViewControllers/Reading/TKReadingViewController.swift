@@ -10,7 +10,7 @@ import UIKit
 import KYDrawerController
 import MBProgressHUD
 import Toast_Swift
-class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource,TKCatalogViewControllerDelegate{
+class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource,TKCatalogViewControllerDelegate,TKToolsProtocol{
     
     enum TKReadingDirection: Int {
         case none = -1
@@ -25,6 +25,8 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     var direction : TKReadingDirection = .none
     
     var readingRecord : (Int,Int)!
+    
+    weak var toolView : UIView?
     
     var statusBarHidden = true
     
@@ -49,11 +51,18 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     lazy var bottomBar: TKSettingBottomBar = {
         let bottomBar = UINib(nibName: "TKSettingBottomBar", bundle: nil).instantiate(withOwner: nil, options: nil).first as! TKSettingBottomBar
         bottomBar.catalogButton.addTarget(self, action: #selector(displayLeftViewController), for: .touchUpInside)
+        bottomBar.fontButton.addTarget(self, action: #selector(showFontToolView), for: .touchUpInside)
         bottomBar.frame = CGRect(x: 0, y: TKScreenHeight, width: TKScreenWidth, height: 49)
         
         return bottomBar
     }()
     
+    
+    lazy var fontToolView: TKFontToolView = {
+        let view = UINib.init(nibName: "TKFontToolView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! TKFontToolView
+        view.delegate = self
+        return view
+    }()
     
     
     
@@ -131,6 +140,47 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     }
     
     
+    func showFontToolView(){
+        
+        
+        if self.toolView == self.fontToolView {
+            return;
+        }
+        
+        if self.toolView == nil {
+            self.toolView = self.fontToolView
+            self.toolView?.frame = CGRect(x: 0, y: TKScreenHeight, width: TKScreenWidth, height: 100)
+            self.showToolView()
+        }else{
+            self.fontToolView.frame = CGRect(x: 0, y: TKScreenHeight - 49 - 100, width: TKScreenWidth, height: 100)
+            UIView.transition(from: self.toolView!, to: self.fontToolView, duration: 0.15, options: .layoutSubviews, completion: { (completion) in
+                self.toolView = self.fontToolView;
+            })
+        }
+    }
+    
+    func showToolView(){
+        if self.toolView!.superview == nil{
+            self.view.addSubview(self.toolView!)
+            UIView.animate(withDuration: UIApplication.shared.statusBarOrientationAnimationDuration, animations: {
+                self.toolView!.frame = CGRect(x: 0, y: TKScreenHeight - 49 - 100, width: TKScreenWidth, height: 100)
+            })
+        }
+    }
+    
+    func hiddenToolView() {
+        guard self.toolView != nil else {
+            return
+        }
+        if self.toolView!.superview != nil{
+            UIView.animate(withDuration: UIApplication.shared.statusBarOrientationAnimationDuration, animations: {
+                self.toolView!.frame = CGRect(x: 0, y: TKScreenHeight, width: TKScreenWidth, height: 100)
+            }, completion: { (suc) in
+                self.toolView!.removeFromSuperview()
+                self.toolView = nil
+            })
+        }
+    }
     
     
     
@@ -204,13 +254,18 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
                 showBar()
             }else{
                 hiddenBar()
+                hiddenToolView()
             }
         }
     }
     
     
+    
+    
     func jump(to viewcontroller:UIViewController, set page:(Int,Int,Int), completion: (() -> Void)?){
         hiddenBar()
+        hiddenToolView()
+        
         pageViewController.dataSource = nil
         // 这个 setViewControllers 就是 UIPageViewController 的 reloadData 方法函数
         pageViewController.setViewControllers([viewcontroller], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
@@ -272,6 +327,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         
     }
     
+    
     func displayLeftViewController(){
         
         if let drawerController = parent as? KYDrawerController {
@@ -303,6 +359,8 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         hiddenBar()
+        hiddenToolView()
+        
         let vc = pendingViewControllers.first as! TKReadingPageViewController
         let nextIndex = vc.page!
         
@@ -441,6 +499,7 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         if let drawerController = self.parent as? KYDrawerController {
             drawerController.setDrawerState(.closed, animated: true)
             self.hiddenBar()
+            self.hiddenToolView()
         }
         
         self.readingRecord = (indexPath,0)
@@ -458,6 +517,44 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         
     }
     
+    
+    // MARK: - toos protocol
+    
+    func fontSizeDidChange(_ value: Int) {
+        // 清除分页记录。
+        // 重新分页
+        // 保存阅读记录
+        // 保存字号大小
+        // 刷新界面
+        let newSize =  TKConfigure.default.fonts[value]
+        
+        if newSize == TKConfigure.default.fontSize!{
+            return
+        }
+        TKConfigure.default.fontSize = newSize
+        
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
+        novelDataSource.downloadedChapters.removeAll()
+        novelDataSource.pageinfos.removeAll()
+        
+        // 拿到阅读记录附近的章节
+        novelDataSource.cacheChaptersNearby(index: self.readingRecord.0) { [unowned self] in
+            //更新当前 页码数
+            
+            self.novelDataSource.page = self.novelDataSource.page(from: self.readingRecord)!
+            // 刷新显示
+            self.refresh()
+            
+            // 保存当前观看的阅读记录
+            let range = self.novelDataSource.downloadedChapters[self.novelDataSource.page.0]!.ranges[self.novelDataSource.page.2]
+            self.readingRecord = (self.novelDataSource.page.0,range.0)
+            
+            MBProgressHUD.hide(for: self.view, animated: true)
+        }
+
+
+    }
     
     
     override var prefersStatusBarHidden: Bool{

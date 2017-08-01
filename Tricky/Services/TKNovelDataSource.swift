@@ -189,6 +189,8 @@ class TKNovelDataSource: NSObject {
         
     }
     
+    
+    
     // 缓存逻辑   模仿SDWebImaghe的图片缓存逻辑
     private func cacheChapter(at index : Int, completionHandle:@escaping(Bool,TKChapterInfoModel?)->()) -> TKChapterInfoModel?{
         debugPrint("先从内存拿章节\(index)")
