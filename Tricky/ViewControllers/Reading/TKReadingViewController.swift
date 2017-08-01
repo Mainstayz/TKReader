@@ -10,7 +10,7 @@ import UIKit
 import KYDrawerController
 import MBProgressHUD
 import Toast_Swift
-class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource,TKCatalogViewControllerDelegate,TKToolsProtocol{
+class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIPageViewControllerDataSource,TKCatalogViewControllerDelegate,TKToolsProtocol,UIGestureRecognizerDelegate{
     
     enum TKReadingDirection: Int {
         case none = -1
@@ -29,6 +29,8 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     weak var toolView : UIView?
     
     var statusBarHidden = true
+    
+    var tapGesture : UITapGestureRecognizer!
     
     lazy var toastView: UILabel = {
         let lab = UILabel(frame: CGRect(x: 0, y: TKScreenHeight - 49, width: TKScreenWidth, height: 49))
@@ -81,9 +83,11 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
         self.view.addSubview(pageViewController.view)
         pageViewController.didMove(toParentViewController: self)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(pageDidCilcked(with:)))
+        self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(pageDidCilcked(with:)))
         
-        self.view.addGestureRecognizer(tap)
+        self.tapGesture.delegate = self
+        
+        self.view.addGestureRecognizer(self.tapGesture)
         
         self.view.addSubview(self.toastView)
         
@@ -187,6 +191,15 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
     func pageDidCilcked(with gesture:UITapGestureRecognizer){
         let location = gesture.location(in: view)
         // 左边区域
+        
+        
+        if self.topBar.superview != nil && self.bottomBar.superview != nil {
+            hiddenBar()
+            hiddenToolView()
+            return
+        }
+        
+        
         if location.x < TKScreenWidth / 3.0 {
             // 判断是否存在上 一个
             if let page = self.novelDataSource.prePage(){
@@ -543,8 +556,22 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
             //更新当前 页码数
             
             self.novelDataSource.page = self.novelDataSource.page(from: self.readingRecord)!
+            
+            let page = self.novelDataSource.page
             // 刷新显示
-            self.refresh()
+            
+            if let viewController =  self.viewController(page: self.novelDataSource.page){ 
+                self.pageViewController.dataSource = nil
+                // 这个 setViewControllers 就是 UIPageViewController 的 reloadData 方法函数
+                self.pageViewController.setViewControllers([viewController], direction: UIPageViewControllerNavigationDirection.forward, animated: false) { [unowned self] (finished) in
+                    self.novelDataSource.page = page
+                    let range = self.novelDataSource.downloadedChapters[page.0]!.ranges[page.2]
+                    self.readingRecord = (page.0,range.0)
+                    self.pageViewController.dataSource = self
+                }
+                
+            }
+
             
             // 保存当前观看的阅读记录
             let range = self.novelDataSource.downloadedChapters[self.novelDataSource.page.0]!.ranges[self.novelDataSource.page.2]
@@ -556,6 +583,15 @@ class TKReadingViewController: TKViewController,UIPageViewControllerDelegate,UIP
 
     }
     
+    
+    // MARK: - gesture delegate
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view!.isDescendant(of: view) && !(touch.view is TKContentView){
+            return false
+        }
+        return true
+    }
     
     override var prefersStatusBarHidden: Bool{
         return statusBarHidden

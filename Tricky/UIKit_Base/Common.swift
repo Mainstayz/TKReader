@@ -12,9 +12,6 @@ import UIKit
 class TKViewController: UIViewController {
 
     
-    
-    
-    
     override var preferredStatusBarStyle: UIStatusBarStyle{
         return UIStatusBarStyle.lightContent
     }
